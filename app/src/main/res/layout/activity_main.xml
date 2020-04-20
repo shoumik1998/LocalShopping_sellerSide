@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:textSize="30dp"
+        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        android:id="@+id/mainTextID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:id="@+id/imgLayID"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="250dp">
+        <ImageView
+            android:visibility="gone"
+            android:layout_below="@+id/mainTextID"
+            android:id="@+id/mainImgID"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"/>
+
+    </LinearLayout>
+
+
+
+    <EditText
+        android:visibility="gone"
+        android:layout_below="@+id/imgLayID"
+        android:hint="Title..."
+        android:id="@+id/titleeditID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:inputType="number"
+        android:visibility="gone"
+        android:hint="price...."
+        android:layout_below="@+id/titleeditID"
+        android:id="@+id/priceeditID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:enabled="false"
+        android:layout_below="@+id/priceeditID"
+        android:text="Upload Image"
+        android:id="@+id/uploadbtnID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:weightSum="2"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/laymainID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:layout_weight="1"
+            android:text="Take Photo From Camera"
+            android:id="@+id/camID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:layout_weight="1"
+            android:text="Take Photo From Galary"
+            android:id="@+id/galaryID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+        >>>>>>> HandShoping till AllContent class
+    </LinearLayout>
+
+
+
+
+
+
+
+
+</RelativeLayout>
