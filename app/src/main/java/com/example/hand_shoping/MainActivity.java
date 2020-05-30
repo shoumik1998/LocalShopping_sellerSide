@@ -7,6 +7,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
@@ -15,6 +16,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
@@ -57,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
     private  static  final int  STORAGE_REQ_CODE=2;
     private  static final  int IMG_PICK_CAM_CODE=3;
     private  static  final int IMG_PICK_GALLERY_CODE=4;
+    private  static  final  int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE=5;
+    private  static  final  int  MY_PERMISSIONS_REQUEST_CAMERA=6;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,11 +96,9 @@ public class MainActivity extends AppCompatActivity {
         cambtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!cam_permission_checker()){
-                    cam_permission_request();
-                }else {
+
                     cam_picker();
-                }
+
 
             }
         });
@@ -104,15 +106,14 @@ public class MainActivity extends AppCompatActivity {
         galbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!storage_permission_checker()){
-                    storage_permission_request();
-                }else {
-                    gallery_picker();
-                }
 
+                    gallery_picker();
             }
         });
         logIn_activity = new LogIn_Activity();
+
+        getting_Storage_permission();
+        getting_camera_permission();
 
 
     }
@@ -175,32 +176,6 @@ public class MainActivity extends AppCompatActivity {
         return sharedPreferences.getString("prefName","Not found ");
     }
 
-
-    private  boolean cam_permission_checker(){
-        boolean result= ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
-                ==(PackageManager.PERMISSION_GRANTED);
-
-        boolean result1=ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                ==(PackageManager.PERMISSION_GRANTED);
-        return  result && result1;
-
-    }
-
-    private  boolean storage_permission_checker(){
-        boolean result1=ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                ==(PackageManager.PERMISSION_GRANTED);
-        return  result1;
-
-    }
-
-    private void cam_permission_request(){
-        ActivityCompat.requestPermissions(this,cam_permission,CAM_REQ_CODE);
-    }
-
-    private  void  storage_permission_request(){
-        ActivityCompat.requestPermissions(this,storage_permission,STORAGE_REQ_CODE);
-    }
-
     private  void  cam_picker(){
         ContentValues values=new ContentValues();
         values.put(MediaStore.Images.Media.TITLE,"New Pic ");
@@ -212,113 +187,185 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private  void  gallery_picker(){
-        Intent intent=new Intent(Intent.ACTION_PICK);
-        intent.setType("image/*");
-        startActivityForResult(intent,IMG_PICK_GALLERY_CODE);
+        CropImage.activity(image_uri).setGuidelines(CropImageView.Guidelines.ON).start(this);
 
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode==RESULT_OK){
-            if (requestCode==IMG_PICK_GALLERY_CODE){
-                CropImage.activity().setGuidelines(CropImageView.Guidelines.ON).start(this);
-            }
-            if(requestCode==IMG_PICK_CAM_CODE){
-                CropImage.activity(image_uri).setGuidelines(CropImageView.Guidelines.ON).start(this);
+        if (resultCode==RESULT_OK) {
+            if (requestCode == IMG_PICK_GALLERY_CODE) {
+            }  else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+                CropImage.ActivityResult result = CropImage.getActivityResult(data);
+                if (resultCode == RESULT_OK) {
+                    Uri result_uri = result.getUri();
+                    try {
+                        bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), result_uri);
+                        imageView.setImageURI(result_uri);
+                        imageView.setVisibility(View.VISIBLE);
+                        uploadBtn.setEnabled(true);
+                        titleEditxt.setVisibility(View.VISIBLE);
+                        priceEditxt.setVisibility(View.VISIBLE);
+                        cambtn.setEnabled(false);
+                        galbtn.setEnabled(false);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
-            }
-        }
-        if (requestCode==CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE){
-            CropImage.ActivityResult result=CropImage.getActivityResult(data);
-            if (resultCode==RESULT_OK){
-                Uri result_uri=result.getUri();
-                try {
-                    bitmap=MediaStore.Images.Media.getBitmap(getContentResolver(),result_uri);
-                    imageView.setImageURI(result_uri);
-                    imageView.setVisibility(View.VISIBLE);
-                    uploadBtn.setEnabled(true);
-                    titleEditxt.setVisibility(View.VISIBLE);
-                    priceEditxt.setVisibility(View.VISIBLE);
-                    cambtn.setEnabled(false);
-                    galbtn.setEnabled(false);
-                } catch (IOException e) {
-                    e.printStackTrace();
+
                 }
-
-
-
             }
         }
 
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        switch (requestCode){
-            case  CAM_REQ_CODE:
-                if (grantResults.length>0){
-                    boolean cam_accepted=grantResults[0]==
-                            PackageManager.PERMISSION_GRANTED;
-                    boolean wrt_strg_acptd=grantResults[0]==
-                            PackageManager.PERMISSION_GRANTED;
-                    if (cam_accepted && wrt_strg_acptd){
-                        cam_picker();
-                    }else {
-                        Toast.makeText(this, "Permission denied..", Toast.LENGTH_SHORT).show();
-                    }
-                    break;
+    public void onRequestPermissionsResult(int requestCode,
+                                           String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
                 }
-            case STORAGE_REQ_CODE:
-                if (grantResults.length>0){
-                    boolean wrt_strg_acptd=grantResults[0]==
-                            PackageManager.PERMISSION_GRANTED;
-                    if (wrt_strg_acptd){
-                        Toast.makeText(this, "Permission denied..", Toast.LENGTH_SHORT).show();
-                    }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request.
+
+            case  MY_PERMISSIONS_REQUEST_CAMERA:
+
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // permission was granted, yay! Do the
+                    // contacts-related task you need to do.
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
                 }
-                break;
+                return;
+            }
+
         }
-    }
+
+
+
 
     private  void  uploadImage(){
-        String Image=imageToString();
-        String Title=titleEditxt.getText().toString();
-        String Pricestring=priceEditxt.getText().toString();
-        int  Price=Integer.parseInt(Pricestring);
-        ApiInterface apiInterface=ApiClient.getApiClient().create(ApiInterface.class);
-        Call<ImageClass> call=apiInterface.uploadImage(Title,Image,Price,r_user_name());
-
-        call.enqueue(new Callback<ImageClass>() {
-            @Override
-            public void onResponse(Call<ImageClass> call, Response<ImageClass> response) {
-                ImageClass imageClass=response.body();
-                Toast.makeText(MainActivity.this, "Server Response : "+imageClass.getResponse(), Toast.LENGTH_SHORT).show();
-                cambtn.setEnabled(true);
-                galbtn.setEnabled(true);
-                uploadBtn.setEnabled(false);
-                priceEditxt.setText("");
-                titleEditxt.setText("");
-
-            }
-
+        class  UploadImage extends AsyncTask<Void,Void,Void>{
 
             @Override
-            public void onFailure(Call<ImageClass> call, Throwable t) {
+            protected Void doInBackground(Void... voids) {
+                String Image=imageToString();
+                @SuppressLint("WrongThread") String Title=titleEditxt.getText().toString();
+                @SuppressLint("WrongThread") String Pricestring=priceEditxt.getText().toString();
+                int  Price=Integer.parseInt(Pricestring);
+                ApiInterface apiInterface=ApiClient.getApiClient().create(ApiInterface.class);
+                Call<ImageClass> call=apiInterface.uploadImage(Title,Image,Price,r_user_name());
 
+                call.enqueue(new Callback<ImageClass>() {
+                    @Override
+                    public void onResponse(Call<ImageClass> call, Response<ImageClass> response) {
+                        ImageClass imageClass=response.body();
+                        Toast.makeText(MainActivity.this, "Server Response : "+imageClass.getResponse(), Toast.LENGTH_SHORT).show();
+                        cambtn.setEnabled(true);
+                        galbtn.setEnabled(true);
+                        uploadBtn.setEnabled(false);
+                        priceEditxt.setText("");
+                        titleEditxt.setText("");
+
+                    }
+
+
+                    @Override
+                    public void onFailure(Call<ImageClass> call, Throwable t) {
+                        Toast.makeText(MainActivity.this, "hmmmm hoi ni..", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+                return  null;
             }
-        });
+        }
+        new UploadImage().execute();
+
 
 
 
     }
     private  String imageToString(){
-        ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
-        byte[] imgByte=byteArrayOutputStream.toByteArray();
-        return Base64.encodeToString(imgByte,Base64.DEFAULT);
+                ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
+                byte[] imgByte=byteArrayOutputStream.toByteArray();
+                return Base64.encodeToString(imgByte,Base64.DEFAULT);
 
     }
+
+    private  void  getting_Storage_permission(){
+        // Here, thisActivity is the current activity
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Permission is not granted
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+            } else {
+                // No explanation needed; request the permission
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        } else {
+            // Permission has already been granted
+        }
+    }
+
+    private  void  getting_camera_permission(){
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Permission is not granted
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.CAMERA)) {
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+            } else {
+                // No explanation needed; request the permission
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.CAMERA},
+                        MY_PERMISSIONS_REQUEST_CAMERA);
+
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant. The callback method gets the
+                // result of the request.
+            }
+        } else {
+            // Permission has already been granted
+        }
+
+    }
+
+
+
+
 
 }

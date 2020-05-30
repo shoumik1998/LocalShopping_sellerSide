@@ -1,5 +1,6 @@
 package com.example.hand_shoping;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -14,7 +15,8 @@ public interface ApiInterface {
 
     @GET("register.php")
     Call<User> UserRegistration(@Query("name") String Name, @Query("user_name") String User_name,
-                                @Query("user_password") String User_password);
+                                @Query("user_password") String User_password,@Query("country") String Country,@Query("district") String District,@Query("subdistrict") String SubDistrict,
+                                @Query("region") String Region);
 
     @GET("login.php")
     Call<User> UserLogIn(@Query("user_name") String User_name,@Query("user_password") String User_password);
@@ -26,6 +28,10 @@ public interface ApiInterface {
 
     @GET("dataFetching.php")
     Call<List<Fetching_Image>> image_fetching(@Query("user_name") String u_name);
+
+    @FormUrlEncoded
+    @POST("dataDelete.php")
+    Call<List<Fetching_Image>> delete_products(@Field("id[]") ArrayList<Integer> id);
 
 
 }

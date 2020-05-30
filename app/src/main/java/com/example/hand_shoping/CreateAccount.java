@@ -15,7 +15,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CreateAccount extends AppCompatActivity {
-    private EditText Name,UserName,UserPassword;
+    private EditText Country,District,Sub_district,Shop_region, Name,UserName,UserPassword;
     private Button CreateAccButton;
     public  static ApiInterface apiInterface;
 
@@ -24,6 +24,10 @@ public class CreateAccount extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
 
+        Country=findViewById(R.id.CAcceditCountrynameID);
+        District=findViewById(R.id.CAcceditDistrictnameID);
+        Sub_district=findViewById(R.id.CAcceditSubDistrictnameID);
+        Shop_region=findViewById(R.id.CAcceditShopRegionnameID);
         Name=findViewById(R.id.CAcceditnameID);
         UserName=findViewById(R.id.CaccounteditusernameID);
         UserPassword=findViewById(R.id.CccounteditpassID);
@@ -49,11 +53,16 @@ public class CreateAccount extends AppCompatActivity {
 
     private void registration_user() {
 
+        String country=Country.getText().toString();
+        String district=District.getText().toString();
+        String sub_district=Sub_district.getText().toString();
+        String shop_region=Shop_region.getText().toString();
         String name=Name.getText().toString();
         String user_name=UserName.getText().toString();
         String user_password=UserPassword.getText().toString();
 
-        Call<User> call=apiInterface.UserRegistration(name,user_name,user_password);
+
+        Call<User> call=apiInterface.UserRegistration(name,user_name,user_password,country,district,sub_district,shop_region);
 
         call.enqueue(new Callback<User>() {
             @Override

@@ -9,6 +9,33 @@
     tools:context=".CreateAccount">
 
     <EditText
+        android:hint=" country "
+        android:id="@+id/CAcceditCountrynameID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:hint=" district ..."
+        android:id="@+id/CAcceditDistrictnameID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:hint="sub district . ..."
+        android:id="@+id/CAcceditSubDistrictnameID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:hint=" Shop region name ..."
+        android:id="@+id/CAcceditShopRegionnameID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+
+
+    <EditText
         android:hint="Shop Name please ..."
         android:id="@+id/CAcceditnameID"
         android:layout_width="match_parent"

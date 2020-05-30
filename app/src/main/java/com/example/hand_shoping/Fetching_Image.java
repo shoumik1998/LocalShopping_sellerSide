@@ -12,7 +12,8 @@ public class Fetching_Image {
     String Price;
     @SerializedName("id")
     int id;
-    private  boolean isSelected=false;
+    @SerializedName("response")
+    String response;
 
     public String getName() {
         return Name;
@@ -27,15 +28,11 @@ public class Fetching_Image {
         return Price;
     }
 
-    public  void  setSelected(boolean selected){
-        isSelected=selected;
-    }
-
-    public  boolean isSelected(){
-        return isSelected;
-    }
-
     public int getId() {
         return id;
+    }
+
+    public String getResponse() {
+        return response;
     }
 }
