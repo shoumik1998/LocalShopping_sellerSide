@@ -62,7 +62,7 @@ public class CreateAccount extends AppCompatActivity {
         String user_password=UserPassword.getText().toString();
 
 
-        Call<User> call=apiInterface.UserRegistration(name,user_name,user_password,country,district,sub_district,shop_region);
+        Call<User> call=apiInterface.userRegistration(name,user_name,user_password,country,district,sub_district,shop_region);
 
         call.enqueue(new Callback<User>() {
             @Override
@@ -79,6 +79,19 @@ public class CreateAccount extends AppCompatActivity {
                 }else if(response.body().getResponse().equals("Error")){
                     Toast.makeText(CreateAccount.this, "registration Failed", Toast.LENGTH_SHORT).show();
 
+                }else if (response.body().getResponse().equals("Invalid")){
+                    Toast.makeText(CreateAccount.this, "Invalid user name, use /^[a-zA-Z ]*$/", Toast.LENGTH_SHORT).show();
+
+                }else if(response.body().getResponse().contains("Invalid_low")){
+                    Toast.makeText(CreateAccount.this, "Minimum length of user name is  3 ", Toast.LENGTH_SHORT).show();
+
+
+                }else if (response.body().getResponse().contains("Invalid_high")){
+                    Toast.makeText(CreateAccount.this, "Maximum length of user name is 20", Toast.LENGTH_SHORT).show();
+
+                }else if (response.body().getResponse().contains("Invalid_password")){
+                    Toast.makeText(CreateAccount.this, "Maximum length of password is 10", Toast.LENGTH_SHORT).show();
+
                 }
 
 
@@ -86,6 +99,7 @@ public class CreateAccount extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
+                Toast.makeText(CreateAccount.this, "Failed", Toast.LENGTH_SHORT).show();
 
             }
         });

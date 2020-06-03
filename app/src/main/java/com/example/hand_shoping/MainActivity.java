@@ -274,20 +274,29 @@ public class MainActivity extends AppCompatActivity {
                 call.enqueue(new Callback<ImageClass>() {
                     @Override
                     public void onResponse(Call<ImageClass> call, Response<ImageClass> response) {
-                        ImageClass imageClass=response.body();
-                        Toast.makeText(MainActivity.this, "Server Response : "+imageClass.getResponse(), Toast.LENGTH_SHORT).show();
-                        cambtn.setEnabled(true);
-                        galbtn.setEnabled(true);
-                        uploadBtn.setEnabled(false);
-                        priceEditxt.setText("");
-                        titleEditxt.setText("");
+                        if (response.body().getResponse().contains("Successful")) {
+                            ImageClass imageClass = response.body();
+                            Toast.makeText(MainActivity.this, "Server Response : " + imageClass.getResponse(), Toast.LENGTH_SHORT).show();
+                            cambtn.setEnabled(true);
+                            galbtn.setEnabled(true);
+                            uploadBtn.setEnabled(false);
+                            priceEditxt.setText("");
+                            titleEditxt.setText("");
+                        }else if(response.body().getResponse().contains("Exist")) {
+                            Toast.makeText(MainActivity.this, "Already Exists This Name", Toast.LENGTH_SHORT).show();
+                        }else if(response.body().getResponse().contains("Invalid")) {
+                            Toast.makeText(MainActivity.this, "Invalid title use letters and numbers ", Toast.LENGTH_SHORT).show();
+                        }else if(response.body().getResponse().contains("Invalid_high")){
+                        Toast.makeText(MainActivity.this, "Maximum length of title is 50", Toast.LENGTH_SHORT).show();
+
+                        }
 
                     }
 
 
                     @Override
                     public void onFailure(Call<ImageClass> call, Throwable t) {
-                        Toast.makeText(MainActivity.this, "hmmmm hoi ni..", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Error Occured "+t.getMessage(), Toast.LENGTH_SHORT).show();
 
                     }
                 });

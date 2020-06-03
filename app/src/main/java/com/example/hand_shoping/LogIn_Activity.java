@@ -59,7 +59,7 @@ public class LogIn_Activity extends AppCompatActivity {
         String user_name=User_name.getText().toString();
         String user_password=User_password.getText().toString();
 
-        Call<User> call =apiInterface.UserLogIn(user_name,user_password);
+        Call<User> call =apiInterface.userLogIn(user_name,user_password);
 
         call.enqueue(new Callback<User>() {
             @Override

@@ -39,8 +39,9 @@ public class AllContents extends AppCompatActivity implements View.OnLongClickLi
     boolean is_in_action_mode=false;
     TextView counter_text_view;
     ArrayList<Fetching_Image> selection_img=new ArrayList<>();
-    ArrayList<Integer> selected_id=new ArrayList<>();
-    int count;
+    ArrayList<Integer> selected_id;
+    ArrayList<Integer> tempList=new ArrayList<>();
+    int count=0;
     CheckBox checkBox;
 
 
@@ -57,8 +58,7 @@ public class AllContents extends AppCompatActivity implements View.OnLongClickLi
         toolbar=findViewById(R.id.toolbarID);
         counter_text_view=findViewById(R.id.counter_text_id);
         counter_text_view.setVisibility(View.GONE);
-
-        adapter=new RecyclerAdapter(myImage,context);
+        selected_id=new ArrayList<>();
 
 
 
@@ -162,13 +162,27 @@ public class AllContents extends AppCompatActivity implements View.OnLongClickLi
     public  void   prepareSelection(View view,int position){
         if (((CheckBox)view).isChecked()){
             selection_img.add(myImage.get(position));
-            selected_id.add(myImage.get(position).getId());
+            try{
+                selected_id.add(myImage.get(position).getId());
+
+            }catch (Exception e){
+                Toast.makeText(this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+
             count=count+1;
             update_selection(count);
 
-        }else {
+        }else{
             selection_img.remove(myImage.get(position));
-            selected_id.remove(myImage.get(position).getId());
+            try {
+                for(int i=0;i<=selected_id.size();i++) {
+                     tempList.add(myImage.get(position).getId());
+                }
+                selected_id.removeAll(tempList);
+            }catch (Exception e){
+                Toast.makeText(this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
             count=count-1;
             update_selection(count);
 
@@ -181,7 +195,9 @@ public class AllContents extends AppCompatActivity implements View.OnLongClickLi
     }
     public  void  update_selection(int counter){
         if (counter==0){
-            counter_text_view.setText(" 0 item selected");
+            counter_text_view.setText(counter+"  item selected");
+        }else if (counter==1){
+            counter_text_view.setText(counter+ " item selected");
         }else {
             counter_text_view.setText(counter+ " items selected");
         }

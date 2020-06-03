@@ -14,12 +14,12 @@ import retrofit2.http.Query;
 public interface ApiInterface {
 
     @GET("register.php")
-    Call<User> UserRegistration(@Query("name") String Name, @Query("user_name") String User_name,
+    Call<User> userRegistration(@Query("name") String Name, @Query("user_name") String User_name,
                                 @Query("user_password") String User_password,@Query("country") String Country,@Query("district") String District,@Query("subdistrict") String SubDistrict,
                                 @Query("region") String Region);
 
     @GET("login.php")
-    Call<User> UserLogIn(@Query("user_name") String User_name,@Query("user_password") String User_password);
+    Call<User> userLogIn(@Query("user_name") String User_name,@Query("user_password") String User_password);
 
     @FormUrlEncoded
     @POST("server_side.php")
