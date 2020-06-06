@@ -5,16 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:gravity="center"
     tools:context=".LogIn_Activity">
 
 
     <EditText
+        android:textColorHint="#696666"
+        android:textColor="#000000"
+        android:textSize="20dp"
         android:hint="User Name please .."
         android:id="@+id/LogIneditusernameID"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
     <EditText
+        android:textColorHint="#696666"
+        android:textColor="#000000"
+        android:textSize="20dp"
         android:inputType="textPassword"
         android:hint="Password  please ...."
         android:id="@+id/logIneditpassID"
@@ -22,12 +29,15 @@
         android:layout_height="wrap_content"/>
 
     <Button
+        android:background="#ff0000"
+        android:textColor="#FFFFFF"
         android:id="@+id/loginBtnID"
-        android:text="LOG IN"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:text="LOG IN" />
 
     <TextView
+        android:textColor="#0000ff"
         android:text="Having No Account?"
         android:id="@+id/logintextID"
         android:layout_width="wrap_content"

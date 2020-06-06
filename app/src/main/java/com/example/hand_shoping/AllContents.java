@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -59,9 +61,6 @@ public class AllContents extends AppCompatActivity implements View.OnLongClickLi
         counter_text_view=findViewById(R.id.counter_text_id);
         counter_text_view.setVisibility(View.GONE);
         selected_id=new ArrayList<>();
-
-
-
 
         setSupportActionBar(toolbar);
         fetch_all_products();
@@ -114,7 +113,11 @@ public class AllContents extends AppCompatActivity implements View.OnLongClickLi
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
+                if (myImage!=null) {
+                    adapter.getFilter().filter(newText);
+                }else {
+                    Toast.makeText(AllContents.this, "Wait till fetching products properly ", Toast.LENGTH_SHORT).show();
+                }
 
                 return false;
             }
@@ -137,8 +140,15 @@ public class AllContents extends AppCompatActivity implements View.OnLongClickLi
            adapter.notifyDataSetChanged();
        }
        else if (item.getItemId()==R.id.select_all_id){
-           myViewHolder=adapter.new MyViewHolder(checkBox,this);
-           myViewHolder.checkBox.setChecked(true);
+
+           for (int i=0;i<=myImage.size();i++){
+               try {
+                   myViewHolder = adapter.new MyViewHolder(checkBox, this);
+                   myViewHolder.checkBox.setChecked(true);
+               }catch (Exception e){
+               }
+
+           }
 
 
        }

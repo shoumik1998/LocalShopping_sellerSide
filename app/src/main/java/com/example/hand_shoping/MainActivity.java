@@ -15,6 +15,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -24,6 +26,7 @@ import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -55,8 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private Uri image_uri;
     private Bitmap bitmap;
 
-    private  static  final int   CAM_REQ_CODE=1;
-    private  static  final int  STORAGE_REQ_CODE=2;
+
     private  static final  int IMG_PICK_CAM_CODE=3;
     private  static  final int IMG_PICK_GALLERY_CODE=4;
     private  static  final  int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE=5;
@@ -66,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ccccff")));
 
         sharedPreferences=getSharedPreferences("myFile", Context.MODE_PRIVATE);
         mainActivity=this;
@@ -81,11 +85,16 @@ public class MainActivity extends AppCompatActivity {
         priceEditxt=findViewById(R.id.priceeditID);
         uploadBtn=findViewById(R.id.uploadbtnID);
         textView.setText(rName());
+
+        if (!uploadBtn.isEnabled()){
+            uploadBtn.setBackgroundColor(Color.parseColor("#828e93"));
+        }
+
         uploadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(TextUtils.isEmpty(titleEditxt.getText().toString())|| TextUtils.isEmpty(priceEditxt.getText().toString())){
-                    Toast.makeText(MainActivity.this, "Title and price  must needed", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Title and price  must be needed", Toast.LENGTH_SHORT).show();
                 }else {
                     uploadImage();
                 }
@@ -114,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
 
         getting_Storage_permission();
         getting_camera_permission();
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 
     }
@@ -205,10 +215,31 @@ public class MainActivity extends AppCompatActivity {
                         imageView.setImageURI(result_uri);
                         imageView.setVisibility(View.VISIBLE);
                         uploadBtn.setEnabled(true);
+                        uploadBtn.setBackgroundColor(Color.parseColor("#2f444b"));
                         titleEditxt.setVisibility(View.VISIBLE);
                         priceEditxt.setVisibility(View.VISIBLE);
                         cambtn.setEnabled(false);
+                        cambtn.setBackgroundColor(Color.parseColor("#7f7fff"));
                         galbtn.setEnabled(false);
+                        galbtn.setBackgroundColor(Color.parseColor("#c69dfb"));
+
+                        titleEditxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                            @Override
+                            public void onFocusChange(View v, boolean hasFocus) {
+                                if (!hasFocus){
+                                    if (activity!=null) {
+                                        activity.getWindow()
+                                                .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+                                    }
+                                }else {
+                                    if (activity!=null) {
+                                        activity.getWindow()
+                                                .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                                    }
+
+                                }
+                            }
+                        });
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -278,8 +309,11 @@ public class MainActivity extends AppCompatActivity {
                             ImageClass imageClass = response.body();
                             Toast.makeText(MainActivity.this, "Server Response : " + imageClass.getResponse(), Toast.LENGTH_SHORT).show();
                             cambtn.setEnabled(true);
+                            cambtn.setBackgroundColor(Color.parseColor("#0000ff"));
                             galbtn.setEnabled(true);
+                            galbtn.setBackgroundColor(Color.parseColor("#a05cf9"));
                             uploadBtn.setEnabled(false);
+                            uploadBtn.setBackgroundColor(Color.parseColor("#828e93"));
                             priceEditxt.setText("");
                             titleEditxt.setText("");
                         }else if(response.body().getResponse().contains("Exist")) {

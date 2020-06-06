@@ -1,91 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
     <TextView
-        android:textSize="30dp"
-        android:layout_centerInParent="true"
-        android:layout_alignParentTop="true"
+        android:textColor="#4e1dff"
         android:id="@+id/mainTextID"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="true"
+        android:text="shop name"
+        android:textSize="30dp"
+        app:layout_constraintBottom_toTopOf="@+id/imgLayID"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.031"
+        tools:ignore="MissingConstraints" />
 
     <LinearLayout
         android:id="@+id/imgLayID"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="250dp">
+        android:layout_height="250dp"
+        android:layout_marginBottom="36dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/titleeditID"
+        app:layout_constraintTop_toBottomOf="@+id/mainTextID"
+        app:layout_constraintVertical_bias="0.0"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp">
+
         <ImageView
-            android:visibility="gone"
-            android:layout_below="@+id/mainTextID"
             android:id="@+id/mainImgID"
             android:layout_width="match_parent"
-            android:layout_height="250dp"/>
+            android:layout_height="match_parent"
+            android:layout_below="@+id/mainTextID"
+            android:visibility="gone" />
+
 
     </LinearLayout>
 
-
-
     <EditText
-        android:visibility="gone"
-        android:layout_below="@+id/imgLayID"
-        android:hint="Title..."
         android:id="@+id/titleeditID"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:hint="Title..."
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/priceeditID"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgLayID"
+        tools:ignore="MissingConstraints" />
 
     <EditText
-        android:inputType="number"
-        android:visibility="gone"
-        android:hint="price...."
-        android:layout_below="@+id/titleeditID"
         android:id="@+id/priceeditID"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:hint="price...."
+        android:inputType="number"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/uploadbtnID"
+        tools:ignore="MissingConstraints" />
+
 
     <Button
-        android:enabled="false"
-        android:layout_below="@+id/priceeditID"
-        android:text="Upload Image"
+        android:textColor="#FFFFFF"
+        android:background="#2f444b"
         android:id="@+id/uploadbtnID"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_width="280dp"
+        android:layout_height="43dp"
+        android:layout_marginBottom="24dp"
+        android:enabled="false"
+        android:text="Upload Image"
+        app:layout_constraintBottom_toTopOf="@+id/btnsLayoutID"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints" />
 
     <LinearLayout
-        android:weightSum="2"
-        android:layout_alignParentBottom="true"
-        android:id="@+id/laymainID"
+        android:id="@+id/btnsLayoutID"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
+        android:orientation="horizontal"
+        android:weightSum="2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
         <Button
+            android:layout_margin="5dp"
+            android:textColor="#FFFFFF"
+            android:background="#0000ff"
+            android:id="@+id/camID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Take Photo From Camera"
-            android:id="@+id/camID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+             />
 
         <Button
+            android:layout_margin="5dp"
+            android:textColor="#FFFFFF"
+            android:background="#a05cf9"
+            android:id="@+id/galaryID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Take Photo From Galary"
-            android:id="@+id/galaryID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            />
 
-
-        >>>>>>> HandShoping till AllContent class
     </LinearLayout>
 
 
 
 
-
-
-
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

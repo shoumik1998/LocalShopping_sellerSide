@@ -44,7 +44,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
         final Fetching_Image myImg = myImage.get(position);
         holder.Name.setText(myImage.get(position).getName());
-        holder.Price.setText("Price :" + myImage.get(position).getPrice());
+        holder.Price.setText("Price :" + myImage.get(position).getPrice()+" "+myImg.getCurrency());
         Glide.with(context).load(myImage.get(position).getImage_Path()).into(holder.imageView);
         if (!allContents.is_in_action_mode) {
             holder.checkBox.setVisibility(View.GONE);
@@ -104,7 +104,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
          AllContents allContents;
          CardView cardView;
 
-        public MyViewHolder(@NonNull View itemView,AllContents allContents) {
+        public MyViewHolder( View itemView,AllContents allContents) {
             super(itemView);
             imageView=itemView.findViewById(R.id.proIMgID);
             Name=itemView.findViewById(R.id.proNameID);
@@ -122,6 +122,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         public void onClick(View v) {
             allContents.prepareSelection(v,getAdapterPosition());
         }
+
     }
 
     public  void  update_Adapter(List<Fetching_Image> fetching_images){

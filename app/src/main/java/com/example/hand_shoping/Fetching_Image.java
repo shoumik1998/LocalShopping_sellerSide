@@ -15,6 +15,10 @@ public class Fetching_Image {
     @SerializedName("response")
     String response;
 
+    @SerializedName("currency")
+    String Currency;
+
+
     public String getName() {
         return Name;
     }
@@ -30,6 +34,10 @@ public class Fetching_Image {
 
     public int getId() {
         return id;
+    }
+
+    public String getCurrency() {
+        return Currency;
     }
 
     public String getResponse() {

@@ -15,7 +15,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class CreateAccount extends AppCompatActivity {
-    private EditText Country,District,Sub_district,Shop_region, Name,UserName,UserPassword;
+    private EditText Country,District,Sub_district,Shop_region, Name,Currency,UserName,UserPassword;
     private Button CreateAccButton;
     public  static ApiInterface apiInterface;
 
@@ -29,6 +29,7 @@ public class CreateAccount extends AppCompatActivity {
         Sub_district=findViewById(R.id.CAcceditSubDistrictnameID);
         Shop_region=findViewById(R.id.CAcceditShopRegionnameID);
         Name=findViewById(R.id.CAcceditnameID);
+        Currency=findViewById(R.id.CAcceditcurrencyID);
         UserName=findViewById(R.id.CaccounteditusernameID);
         UserPassword=findViewById(R.id.CccounteditpassID);
         CreateAccButton=findViewById(R.id.CaccountBtnID);
@@ -37,10 +38,13 @@ public class CreateAccount extends AppCompatActivity {
         CreateAccButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TextUtils.isEmpty(Name.getText().toString())
+                if (TextUtils.isEmpty(Name.getText().toString()) || TextUtils.isEmpty(Country.getText().toString()) || TextUtils.isEmpty(District.getText().toString())
+                        || TextUtils.isEmpty(Sub_district.getText().toString())
                         ||TextUtils.isEmpty(UserName.getText().toString())
+                        || TextUtils.isEmpty(Shop_region.getText().toString())
+                        || TextUtils.isEmpty(Currency.getText().toString())
                         || TextUtils.isEmpty(UserPassword.getText().toString())){
-                    Toast.makeText(CreateAccount.this, "All of the information is strongly required", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateAccount.this, "All of the information is strongly required, fill up properly", Toast.LENGTH_SHORT).show();
                 }else {
                     registration_user();
 
@@ -58,11 +62,12 @@ public class CreateAccount extends AppCompatActivity {
         String sub_district=Sub_district.getText().toString();
         String shop_region=Shop_region.getText().toString();
         String name=Name.getText().toString();
+        String currency=Currency.getText().toString();
         String user_name=UserName.getText().toString();
         String user_password=UserPassword.getText().toString();
 
 
-        Call<User> call=apiInterface.userRegistration(name,user_name,user_password,country,district,sub_district,shop_region);
+        Call<User> call=apiInterface.userRegistration(name,user_name,user_password,country,district,sub_district,shop_region,currency);
 
         call.enqueue(new Callback<User>() {
             @Override
@@ -80,7 +85,7 @@ public class CreateAccount extends AppCompatActivity {
                     Toast.makeText(CreateAccount.this, "registration Failed", Toast.LENGTH_SHORT).show();
 
                 }else if (response.body().getResponse().equals("Invalid")){
-                    Toast.makeText(CreateAccount.this, "Invalid user name, use /^[a-zA-Z ]*$/", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CreateAccount.this, "Invalid user name ", Toast.LENGTH_SHORT).show();
 
                 }else if(response.body().getResponse().contains("Invalid_low")){
                     Toast.makeText(CreateAccount.this, "Minimum length of user name is  3 ", Toast.LENGTH_SHORT).show();
@@ -91,6 +96,9 @@ public class CreateAccount extends AppCompatActivity {
 
                 }else if (response.body().getResponse().contains("Invalid_password")){
                     Toast.makeText(CreateAccount.this, "Maximum length of password is 10", Toast.LENGTH_SHORT).show();
+
+                }else  if(response.body().getResponse().contains("Invalid_currency")){
+                    Toast.makeText(CreateAccount.this, "Invalid Currency ", Toast.LENGTH_SHORT).show();
 
                 }
 
