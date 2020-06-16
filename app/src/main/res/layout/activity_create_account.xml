@@ -35,8 +35,12 @@
         android:id="@+id/CAcceditShopRegionnameID"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-
-
+    <EditText
+        android:textColor="#6948f6"
+        android:hint=" Shop Location ..."
+        android:id="@+id/CAcceditShopLocationnameID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
 
     <EditText
@@ -50,6 +54,13 @@
         android:textColor="#a6008e"
         android:hint="Currency please ..."
         android:id="@+id/CAcceditcurrencyID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <EditText
+        android:inputType="phone"
+        android:textColor="#a6008e"
+        android:hint="Mobile Number with country code   please ..."
+        android:id="@+id/CAcceditcellNumberID"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 
@@ -71,6 +82,7 @@
 
 
     <Button
+        android:layout_marginBottom="50dp"
         android:padding="10dp"
         android:textColor="#FFFFFF"
         android:background="#0000ff"
@@ -79,6 +91,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
+    <TextView
+        android:textColor="#a6008e"
+        android:layout_marginTop="50dp"
+        android:id="@+id/helpID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Help for country code" />
 
 
 </LinearLayout>

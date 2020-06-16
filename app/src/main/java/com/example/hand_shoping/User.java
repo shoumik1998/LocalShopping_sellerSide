@@ -10,6 +10,8 @@ public class User {
     private  String user_name;
     @SerializedName("name")
     private  String Name;
+    @SerializedName("cell_number")
+    private  String Cell_number;
 
     public String getResponse() {
         return Response;
@@ -21,5 +23,9 @@ public class User {
 
     public String getName() {
         return Name;
+    }
+
+    public String getCell_number() {
+        return Cell_number;
     }
 }

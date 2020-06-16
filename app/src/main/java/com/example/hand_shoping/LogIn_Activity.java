@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,7 +19,7 @@ import retrofit2.Response;
 
 public class LogIn_Activity extends AppCompatActivity {
     private Button loginbtn;
-    private TextView createAccTextV;
+    private TextView createAccTextV,Forgate_password;
     private EditText User_name,User_password;
     protected   static SharedPreferences sharedPreferences;
     public Context context;
@@ -34,6 +35,7 @@ public class LogIn_Activity extends AppCompatActivity {
         createAccTextV=findViewById(R.id.logintextID);
         User_name=findViewById(R.id.LogIneditusernameID);
         User_password=findViewById(R.id.logIneditpassID);
+        Forgate_password=findViewById(R.id.forgatePassID);
 
         apiInterface=ApiClient.getApiClient().create(ApiInterface.class);
 
@@ -51,6 +53,20 @@ public class LogIn_Activity extends AppCompatActivity {
                 startActivity(new Intent(LogIn_Activity.this,CreateAccount.class));
             }
         });
+
+        Forgate_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (TextUtils.isEmpty(User_name.getText().toString())){
+                    Toast.makeText(LogIn_Activity.this, "User name is strongly required", Toast.LENGTH_SHORT).show();
+                }else {
+                    startActivity(new Intent(LogIn_Activity.this,Reset_Password.class));
+
+                }
+            }
+        });
+
+
 
     }
 

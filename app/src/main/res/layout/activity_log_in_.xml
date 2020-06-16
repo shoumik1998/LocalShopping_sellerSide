@@ -37,10 +37,19 @@
         android:text="LOG IN" />
 
     <TextView
-        android:textColor="#0000ff"
-        android:text="Having No Account?"
-        android:id="@+id/logintextID"
+        android:textColor="@color/colorAccent"
+        android:layout_margin="10dp"
+        android:id="@+id/forgatePassID"
+        android:text="Forgate Password ?"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_margin="90dp"
+        android:id="@+id/logintextID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Having No Account ?"
+        android:textColor="#0000ff" />
 
 </LinearLayout>

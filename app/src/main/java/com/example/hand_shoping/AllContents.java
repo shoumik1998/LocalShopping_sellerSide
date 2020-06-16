@@ -250,6 +250,7 @@ public class AllContents extends AppCompatActivity implements View.OnLongClickLi
 
             @Override
             public void onFailure(Call<List<Fetching_Image>> call, Throwable t) {
+                Toast.makeText(AllContents.this, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
 
 
 
