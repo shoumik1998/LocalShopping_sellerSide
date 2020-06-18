@@ -43,7 +43,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
         final Fetching_Image myImg = myImage.get(position);
-        holder.Name.setText(myImage.get(position).getName());
+        holder.Name.setText(myImage.get(position).getName()+" "+myImg.getId());
         holder.Price.setText("Price :" + myImage.get(position).getPrice()+" "+myImg.getCurrency());
         Glide.with(context).load(myImage.get(position).getImage_Path()).into(holder.imageView);
         if (!allContents.is_in_action_mode) {

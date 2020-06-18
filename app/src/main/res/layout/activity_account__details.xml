@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".Account_Details">
+
+    <EditText
+        android:hint="Enter your password"
+        android:id="@+id/acc_details_editID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:textColor="#FFFFFF"
+        android:background="#20CAC3"
+        android:text="Submit"
+        android:id="@+id/acc_details_submitBtnID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <LinearLayout
+        android:padding="7dp"
+        android:visibility="gone"
+        android:orientation="vertical"
+        android:id="@+id/acc_detAllID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:padding="8dp"
+            android:textSize="20dp"
+            android:textColor="@color/colorAccent"
+            android:id="@+id/acc_det_shop_nameID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:padding="8dp"
+            android:textSize="18dp"
+            android:textColor="@color/colorAccent"
+            android:id="@+id/acc_det_userNameID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:padding="8dp"
+            android:textSize="16dp"
+            android:textColor="#0000ff"
+            android:id="@+id/acc_det_countryID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:padding="8dp"
+            android:textSize="16dp"
+            android:textColor="#0000ff"
+            android:id="@+id/acc_det_districtID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:padding="8dp"
+            android:textSize="16dp"
+            android:textColor="#0000ff"
+            android:id="@+id/acc_det_subDistrictID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:padding="8dp"
+            android:textSize="16dp"
+            android:textColor="#0000ff"
+            android:id="@+id/acc_det_regionID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:padding="8dp"
+            android:textSize="16dp"
+            android:textColor="#0000ff"
+            android:id="@+id/acc_det_locationID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:padding="8dp"
+            android:textSize="16dp"
+            android:textColor="#0000ff"
+            android:id="@+id/acc_det_currencyID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:padding="8dp"
+            android:textSize="16dp"
+            android:textColor="#0000ff"
+            android:id="@+id/acc_det_cell_numberID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+        <Button
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_margin="8dp"
+            android:padding="8dp"
+            android:textColor="#FFFFFF"
+            android:background="#00E2FF"
+            android:text="Update Account"
+            android:id="@+id/acc_det_updateID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_margin="8dp"
+            android:padding="8dp"
+            android:background="#FA00D4"
+            android:textColor="#FFFFFF"
+            android:text="Delete Account Forever"
+            android:id="@+id/acc_deletbtnID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+
+
+
+
+
+
+</LinearLayout>

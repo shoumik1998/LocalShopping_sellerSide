@@ -34,4 +34,8 @@ public interface ApiInterface {
     Call<List<Fetching_Image>> delete_products(@Field("id[]") ArrayList<Integer> id);
 
 
+    @GET("details_fetching.php")
+    Call<User> user_authentication(@Query("user_name") String User_name,@Query("user_password") String user_password);
+
+
 }

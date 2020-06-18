@@ -307,7 +307,7 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(Call<ImageClass> call, Response<ImageClass> response) {
                         if (response.body().getResponse().contains("Successful")) {
                             ImageClass imageClass = response.body();
-                            Toast.makeText(MainActivity.this, "Server Response : " + imageClass.getResponse(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, " Image uploaded successfully ", Toast.LENGTH_SHORT).show();
                             cambtn.setEnabled(true);
                             cambtn.setBackgroundColor(Color.parseColor("#0000ff"));
                             galbtn.setEnabled(true);

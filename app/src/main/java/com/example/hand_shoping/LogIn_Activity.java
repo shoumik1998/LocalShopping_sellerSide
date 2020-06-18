@@ -81,7 +81,7 @@ public class LogIn_Activity extends AppCompatActivity {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.body().getResponse().equals("OK")){
-                    Toast.makeText(LogIn_Activity.this, "hmmmmmmmm", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LogIn_Activity.this, "LogIn Success", Toast.LENGTH_SHORT).show();
                     MainActivity.getInstance().wlogStatus(true);
                     MainActivity.getInstance().wName(response.body().getName(),User_name.getText().toString());
                     Intent intent=new Intent(LogIn_Activity.this, MainActivity.class);

@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -151,6 +152,8 @@ public class AllContents extends AppCompatActivity implements View.OnLongClickLi
            }
 
 
+       }else  if(item.getItemId()==R.id.acc_detailsID){
+           startActivity(new Intent(AllContents.this,Account_Details.class));
        }
         return super.onOptionsItemSelected(item);
     }
@@ -172,27 +175,14 @@ public class AllContents extends AppCompatActivity implements View.OnLongClickLi
     public  void   prepareSelection(View view,int position){
         if (((CheckBox)view).isChecked()){
             selection_img.add(myImage.get(position));
-            try{
-                selected_id.add(myImage.get(position).getId());
-
-            }catch (Exception e){
-                Toast.makeText(this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-
-            }
-
+            selected_id.add(myImage.get(position).getId());
             count=count+1;
             update_selection(count);
+            Toast.makeText(this, ""+myImage.get(position).getId(), Toast.LENGTH_SHORT).show();
 
-        }else{
+        }else {
             selection_img.remove(myImage.get(position));
-            try {
-                for(int i=0;i<=selected_id.size();i++) {
-                     tempList.add(myImage.get(position).getId());
-                }
-                selected_id.removeAll(tempList);
-            }catch (Exception e){
-                Toast.makeText(this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-            }
+            selected_id.remove(myImage.get(position).getId());
             count=count-1;
             update_selection(count);
 
@@ -244,13 +234,11 @@ public class AllContents extends AppCompatActivity implements View.OnLongClickLi
         call.enqueue(new Callback<List<Fetching_Image>>() {
             @Override
             public void onResponse(Call<List<Fetching_Image>> call, Response<List<Fetching_Image>> response) {
-                Toast.makeText(AllContents.this, ""+response.body().toString(), Toast.LENGTH_SHORT).show();
 
             }
 
             @Override
             public void onFailure(Call<List<Fetching_Image>> call, Throwable t) {
-                Toast.makeText(AllContents.this, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
 
 
 

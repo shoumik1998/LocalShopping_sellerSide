@@ -8,4 +8,9 @@
         android:id="@+id/searchitemID"
         android:icon="@android:drawable/ic_menu_search"
         android:title="Search" />
+
+    <item
+        app:showAsAction="never"
+        android:title="Account Details"
+        android:id="@+id/acc_detailsID"/>
 </menu>
