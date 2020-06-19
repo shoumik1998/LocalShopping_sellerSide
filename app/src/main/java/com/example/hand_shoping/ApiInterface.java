@@ -16,7 +16,7 @@ public interface ApiInterface {
     @GET("register.php")
     Call<User> userRegistration(@Query("name") String Name, @Query("user_name") String User_name,
                                 @Query("user_password") String User_password,@Query("country") String Country,@Query("district") String District,@Query("subdistrict") String SubDistrict,
-                                @Query("region") String Region,@Query("location") String Location, @Query("currency") String Currency,@Query("cell_number") String Cell_number);
+                                @Query("region") String Region,@Query("location") String Location, @Query("currency") String Currency,@Query("cell_number") String Cell_number,@Query("selector_code") int code);
 
     @GET("login.php")
     Call<User> userLogIn(@Query("user_name") String User_name,@Query("user_password") String User_password);

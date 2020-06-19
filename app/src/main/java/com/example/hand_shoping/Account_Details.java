@@ -2,6 +2,7 @@ package com.example.hand_shoping;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,10 +19,11 @@ import retrofit2.Response;
 
 public class Account_Details extends AppCompatActivity {
     private EditText Password;
-    private Button Submit,Update;
+    private Button Submit,Update,Delete_Forever;
     private TextView Country,District,SubDistrict,Region,Location,Name,Currency,Cell_number,User_Name;
     private  ApiInterface apiInterface;
     private LinearLayout info_holder;
+    private  User info_getter;
 
 
     @Override
@@ -32,6 +34,7 @@ public class Account_Details extends AppCompatActivity {
         Password=findViewById(R.id.acc_details_editID);
         Submit=findViewById(R.id.acc_details_submitBtnID);
         Update=findViewById(R.id.acc_det_updateID);
+        Delete_Forever=findViewById(R.id.acc_deletbtnID);
         Country=findViewById(R.id.acc_det_countryID);
         District=findViewById(R.id.acc_det_districtID);
         SubDistrict=findViewById(R.id.acc_det_subDistrictID);
@@ -49,6 +52,33 @@ public class Account_Details extends AppCompatActivity {
                         authenticate_user();
             }
         });
+        Update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                        CreateAccount.selector_code=1;
+               Intent intent= new Intent(Account_Details.this,CreateAccount.class);
+               intent.putExtra("country",info_getter.getCountry())
+                       .putExtra("district",info_getter.getDistrict())
+                       .putExtra("subdistrict",info_getter.getSubdistrict())
+                       .putExtra("region",info_getter.getRegion())
+                       .putExtra("location",info_getter.getLocation())
+                       .putExtra("currency",info_getter.getCurrency())
+                       .putExtra("cell_number",info_getter.getCell_number())
+                       .putExtra("name",info_getter.getName())
+                       .putExtra("user_name",info_getter.getUser_name())
+                       .putExtra("selector_code",1);
+                startActivity(intent);
+
+
+            }
+        });
+        Delete_Forever.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
 
 
 
@@ -70,7 +100,7 @@ public class Account_Details extends AppCompatActivity {
                     info_holder.setVisibility(View.VISIBLE);
                     Submit.setVisibility(View.GONE);
                     Password.setVisibility(View.GONE);
-                    User info_getter= response.body();
+                     info_getter= response.body();
                     Name.setText("Shop Name : "+info_getter.getName());
                     User_Name.setText("User Name : "+info_getter.getUser_name());
                     Country.setText("Country : "+info_getter.getCountry());
