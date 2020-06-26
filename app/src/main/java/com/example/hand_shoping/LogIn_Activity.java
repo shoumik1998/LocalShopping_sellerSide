@@ -2,6 +2,7 @@ package com.example.hand_shoping;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,6 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.net.SocketTimeoutException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -90,14 +93,18 @@ public class LogIn_Activity extends AppCompatActivity {
 
 
                 }else if(response.body().getResponse().equals("failed")){
-                    Toast.makeText(LogIn_Activity.this, "LogIn  failed...Please try again", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LogIn_Activity.this, "This user name is not available", Toast.LENGTH_SHORT).show();
 
                 }
             }
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-
+                if (t instanceof SocketTimeoutException ){
+                    Toast.makeText(LogIn_Activity.this, "Can not reach to server , try later", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(LogIn_Activity.this, "Check your internet connection", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 

@@ -17,16 +17,20 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.hardware.input.InputManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -37,8 +41,10 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 
+import id.zelory.compressor.Compressor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -86,6 +92,8 @@ public class MainActivity extends AppCompatActivity {
         uploadBtn=findViewById(R.id.uploadbtnID);
         textView.setText(rName());
 
+
+
         if (!uploadBtn.isEnabled()){
             uploadBtn.setBackgroundColor(Color.parseColor("#828e93"));
         }
@@ -93,8 +101,8 @@ public class MainActivity extends AppCompatActivity {
         uploadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(TextUtils.isEmpty(titleEditxt.getText().toString())|| TextUtils.isEmpty(priceEditxt.getText().toString())){
-                    Toast.makeText(MainActivity.this, "Title and price  must be needed", Toast.LENGTH_SHORT).show();
+                if(TextUtils.isEmpty(titleEditxt.getText().toString()) || TextUtils.isEmpty(priceEditxt.getText().toString())){
+                    Toast.makeText(MainActivity.this, "Title and Price  must be needed", Toast.LENGTH_SHORT).show();
                 }else {
                     uploadImage();
                 }
@@ -126,6 +134,27 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        if(titleEditxt.getVisibility()==View.VISIBLE){
+            InputMethodManager manager= (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            manager.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+        }
+
+
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (getCurrentFocus() != null) {
+            InputMethodManager manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            manager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+
+        return super.onTouchEvent(event);
     }
 
     @Override
@@ -197,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private  void  gallery_picker(){
-        CropImage.activity(image_uri).setGuidelines(CropImageView.Guidelines.ON).start(this);
+        CropImage.activity(image_uri).start(this);
 
     }
 
@@ -209,9 +238,12 @@ public class MainActivity extends AppCompatActivity {
             }  else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
                 if (resultCode == RESULT_OK) {
-                    Uri result_uri = result.getUri();
+                    File file1=new File(result.getUri().getPath());
+
+                    Uri result_uri = Uri.fromFile(file1);
+
                     try {
-                        bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), result_uri);
+                        bitmap =new Compressor(this).compressToBitmap(file1);
                         imageView.setImageURI(result_uri);
                         imageView.setVisibility(View.VISIBLE);
                         uploadBtn.setEnabled(true);
@@ -296,9 +328,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             protected Void doInBackground(Void... voids) {
                 String Image=imageToString();
+
                 @SuppressLint("WrongThread") String Title=titleEditxt.getText().toString();
                 @SuppressLint("WrongThread") String Pricestring=priceEditxt.getText().toString();
-                int  Price=Integer.parseInt(Pricestring);
+
+                   int   Price=Integer.parseInt(Pricestring);
+
+
                 ApiInterface apiInterface=ApiClient.getApiClient().create(ApiInterface.class);
                 Call<ImageClass> call=apiInterface.uploadImage(Title,Image,Price,r_user_name());
 
@@ -330,7 +366,7 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<ImageClass> call, Throwable t) {
-                        Toast.makeText(MainActivity.this, "Error Occured "+t.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Can not connect to server", Toast.LENGTH_SHORT).show();
 
                     }
                 });
@@ -345,7 +381,7 @@ public class MainActivity extends AppCompatActivity {
     }
     private  String imageToString(){
                 ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG,100,byteArrayOutputStream);
+                bitmap.compress(Bitmap.CompressFormat.JPEG,80,byteArrayOutputStream);
                 byte[] imgByte=byteArrayOutputStream.toByteArray();
                 return Base64.encodeToString(imgByte,Base64.DEFAULT);
 

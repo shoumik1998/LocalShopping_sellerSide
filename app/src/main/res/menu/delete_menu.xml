@@ -9,11 +9,6 @@
         app:showAsAction="ifRoom"
         android:title="delete" />
 
-    <item
-        android:visible="true"
-        android:id="@+id/select_all_id"
-        android:title="Select all"
-        app:showAsAction="never" />
 
 
 </menu>

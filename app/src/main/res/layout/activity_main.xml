@@ -8,6 +8,7 @@
 
 
     <TextView
+        android:focusable="true"
         android:textColor="#4e1dff"
         android:id="@+id/mainTextID"
         android:layout_width="wrap_content"
@@ -16,11 +17,32 @@
         android:layout_centerInParent="true"
         android:text="shop name"
         android:textSize="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/imgLayID"
+        app:layout_constraintBottom_toTopOf="@+id/titleeditID"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.031"
+        tools:ignore="MissingConstraints" />
+
+    <EditText
+    android:id="@+id/titleeditID"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Title..."
+    android:visibility="gone"
+    app:layout_constraintBottom_toTopOf="@+id/priceeditID"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/mainTextID"
+    tools:ignore="MissingConstraints" />
+
+    <EditText
+        android:inputType="number"
+        android:id="@+id/priceeditID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="price...."
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/imgLayID"
         tools:ignore="MissingConstraints" />
 
     <LinearLayout
@@ -36,6 +58,8 @@
         tools:layout_editor_absoluteX="0dp">
 
         <ImageView
+            android:scaleY="1"
+            android:scaleX="1"
             android:id="@+id/mainImgID"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -45,26 +69,7 @@
 
     </LinearLayout>
 
-    <EditText
-        android:id="@+id/titleeditID"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Title..."
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/priceeditID"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgLayID"
-        tools:ignore="MissingConstraints" />
 
-    <EditText
-        android:id="@+id/priceeditID"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="price...."
-        android:inputType="number"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/uploadbtnID"
-        tools:ignore="MissingConstraints" />
 
 
     <Button

@@ -1,17 +1,23 @@
 package com.example.hand_shoping;
 
+import android.accounts.NetworkErrorException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,11 +26,17 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> implements Filterable {
 
     private List<Fetching_Image> myImage;
     private Context context;
     private  static AllContents allContents;
+    private  ApiInterface apiInterface;
+
 
 
     public RecyclerAdapter(List<Fetching_Image> myImage, Context context) {
@@ -43,15 +55,78 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     @Override
     public void onBindViewHolder(@NonNull final MyViewHolder holder, int position) {
         final Fetching_Image myImg = myImage.get(position);
-        holder.Name.setText(myImage.get(position).getName()+" "+myImg.getId());
-        holder.Price.setText("Price :" + myImage.get(position).getPrice()+" "+myImg.getCurrency());
-        Glide.with(context).load(myImage.get(position).getImage_Path()).into(holder.imageView);
+        holder.Name.setText(myImg.getName());
+        holder.Price.setText("Price :" + myImg.getPrice()+" "+myImg.getCurrency());
+        Glide.with(context).load(myImg.getImage_Path()).into(holder.imageView);
         if (!allContents.is_in_action_mode) {
             holder.checkBox.setVisibility(View.GONE);
         } else {
             holder.checkBox.setVisibility(View.VISIBLE);
             holder.checkBox.setChecked(false);
         }
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final  View view=LayoutInflater.from(context).inflate(R.layout.update_product_layout,null);
+
+                final AlertDialog dialog=new AlertDialog.Builder(context)
+                        .setView(view)
+                        .setTitle("Update Title and Price ")
+                        .setPositiveButton("Update",null)
+                        .setNegativeButton("cancel",null)
+                        .show();
+                 final EditText update_product_title=view.findViewById(R.id.update_product_nameID);
+                 final EditText update_product_price=view.findViewById(R.id.update_product_priceID);
+                Button button=dialog.getButton(AlertDialog.BUTTON_POSITIVE);
+                button.setOnClickListener(new View.OnClickListener() {
+                                              @Override
+                                              public void onClick(View v) {
+                                                  apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+                                                  Call<Fetching_Image> call = apiInterface.update_product(myImg.getId(), MainActivity.getInstance().r_user_name(),
+                                                          update_product_title.getText().toString(), Integer.parseInt(update_product_price.getText().toString()));
+                                                  call.enqueue(new Callback<Fetching_Image>() {
+                                                      @Override
+                                                      public void onResponse(Call<Fetching_Image> call, Response<Fetching_Image> response) {
+                                                          if (response.body().getResponse().equals("updated")) {
+                                                              myImg.setName(update_product_title.getText().toString());
+                                                              myImg.setPrice(update_product_price.getText().toString());
+                                                              holder.Name.setText(myImg.getName());
+                                                              holder.Price.setText(myImg.getPrice());
+                                                              Toast.makeText(context, "Updated successfully", Toast.LENGTH_SHORT).show();
+                                                              dialog.dismiss();
+
+                                                          } else if (response.body().getResponse().equals("failed")) {
+                                                              Toast.makeText(context, "Failed dto update", Toast.LENGTH_SHORT).show();
+                                                          } else if (response.body().getResponse().equals("Invalid_high")) {
+                                                              Toast.makeText(context, "Maximum length of title is 50", Toast.LENGTH_SHORT).show();
+
+                                                          } else if (response.body().getResponse().equals("Invalid")) {
+                                                              Toast.makeText(context, "Use letters and numbers only", Toast.LENGTH_SHORT).show();
+                                                          } else if (response.body().getResponse().equals("exists")) {
+                                                              Toast.makeText(context, "This title already exists", Toast.LENGTH_SHORT).show();
+                                                          }
+                                                      }
+
+                                                      @Override
+                                                      public void onFailure(Call<Fetching_Image> call, Throwable t) {
+                                                          Toast.makeText(context, "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                                      }
+                                                  });
+
+
+                                              }
+                                          });
+
+                update_product_title.setText(myImg.getName());
+                update_product_price.setText(myImg.getPrice());
+
+
+            }
+        });
+
+
+
 
     }
 
@@ -96,13 +171,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     };
 
 
+
+
     public  class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         ImageView imageView;
         TextView Name,Price;
-         View view;
          CheckBox checkBox;
          AllContents allContents;
          CardView cardView;
+
 
         public MyViewHolder( View itemView,AllContents allContents) {
             super(itemView);
@@ -110,18 +187,24 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             Name=itemView.findViewById(R.id.proNameID);
             Price=itemView.findViewById(R.id.propriceID);
             checkBox=itemView.findViewById(R.id.chechBoxID);
+
             this.allContents=allContents;
             cardView=itemView.findViewById(R.id.cardID);
             cardView.setLongClickable(true);
             cardView.setOnLongClickListener(allContents);
             checkBox.setOnClickListener(this);
+            cardView.setOnClickListener(this);
+
 
         }
+
 
         @Override
         public void onClick(View v) {
             allContents.prepareSelection(v,getAdapterPosition());
+
         }
+
 
     }
 
@@ -132,6 +215,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         notifyDataSetChanged();
 
     }
+
+
 
 
 

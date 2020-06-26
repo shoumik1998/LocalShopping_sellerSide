@@ -139,11 +139,12 @@ public class CreateAccount extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<User> call, Response<User> response) {
                     if (response.body().getResponse().equals("OK")){
-                        startActivity(new Intent(CreateAccount.this,LogIn_Activity.class));
+                        Intent i=new Intent(CreateAccount.this,LogIn_Activity.class);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(i);
                         finish();
-                        Name.setText("");
-                        UserName.setText("");
-                        UserPassword.setText("");
                     }else if(response.body().getResponse().equals("exist")){
                         Toast.makeText(CreateAccount.this, "User already exist", Toast.LENGTH_SHORT).show();
                     }else if(response.body().getResponse().equals("Error")){

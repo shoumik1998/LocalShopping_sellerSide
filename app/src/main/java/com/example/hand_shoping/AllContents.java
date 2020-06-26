@@ -83,13 +83,13 @@ public class AllContents extends AppCompatActivity implements View.OnLongClickLi
                     adapter=new RecyclerAdapter(myImage,AllContents.this);
                     recyclerView.setAdapter(adapter);
                 }else {
-                    Toast.makeText(AllContents.this, "nooo", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AllContents.this, "server not respond ..try later", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Fetching_Image>> call, Throwable t) {
-                Toast.makeText(AllContents.this, " "+t.toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AllContents.this, "Connection failed ... please try again", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -139,19 +139,6 @@ public class AllContents extends AppCompatActivity implements View.OnLongClickLi
        }else if (item.getItemId()==android.R.id.home){
            reset_actionbar();
            adapter.notifyDataSetChanged();
-       }
-       else if (item.getItemId()==R.id.select_all_id){
-
-           for (int i=0;i<=myImage.size();i++){
-               try {
-                   myViewHolder = adapter.new MyViewHolder(checkBox, this);
-                   myViewHolder.checkBox.setChecked(true);
-               }catch (Exception e){
-               }
-
-           }
-
-
        }else  if(item.getItemId()==R.id.acc_detailsID){
            startActivity(new Intent(AllContents.this,Account_Details.class));
        }
@@ -176,21 +163,32 @@ public class AllContents extends AppCompatActivity implements View.OnLongClickLi
         if (((CheckBox)view).isChecked()){
             selection_img.add(myImage.get(position));
             selected_id.add(myImage.get(position).getId());
+            try{
+                selected_id.add(myImage.get(position).getId());
+
+            }catch (Exception e){
+                Toast.makeText(this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+
             count=count+1;
             update_selection(count);
-            Toast.makeText(this, ""+myImage.get(position).getId(), Toast.LENGTH_SHORT).show();
 
-        }else {
-            selection_img.remove(myImage.get(position));
-            selected_id.remove(myImage.get(position).getId());
-            count=count-1;
+
+        }else{
+            try {
+                for (int i = 0; i <= selected_id.size(); i++) {
+                    tempList.add(myImage.get(position).getId());
+                }
+                selected_id.removeAll(tempList);
+            } catch (Exception e) {
+                Toast.makeText(this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+            count = count - 1;
             update_selection(count);
 
+
         }
-
-
-
-
 
     }
     public  void  update_selection(int counter){

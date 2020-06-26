@@ -1,10 +1,16 @@
 package com.example.hand_shoping;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.accounts.NetworkErrorException;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -24,6 +30,7 @@ public class Account_Details extends AppCompatActivity {
     private  ApiInterface apiInterface;
     private LinearLayout info_holder;
     private  User info_getter;
+    private  InputMethodManager manager;
 
 
     @Override
@@ -45,6 +52,13 @@ public class Account_Details extends AppCompatActivity {
         Cell_number=findViewById(R.id.acc_det_cell_numberID);
         User_Name=findViewById(R.id.acc_det_userNameID);
         info_holder=findViewById(R.id.acc_detAllID);
+
+        Password.requestFocus();
+
+         manager= (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+         manager.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+
+
 
         Submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,6 +89,54 @@ public class Account_Details extends AppCompatActivity {
         Delete_Forever.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                AlertDialog.Builder builder=new AlertDialog.Builder(Account_Details.this);
+                builder.setMessage("Do you really want to delete your account?" +
+                        " All of the information and " +
+                        "data will deleted forever if you do that. ");
+                builder.setCancelable(true);
+
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        apiInterface=ApiClient.getApiClient().create(ApiInterface.class);
+                        Call<User> call=apiInterface.account_delete_forever(MainActivity.getInstance().r_user_name());
+
+                        call.enqueue(new Callback<User>() {
+                            @Override
+                            public void onResponse(Call<User> call, Response<User> response) {
+                                if (response.body().getResponse().equals("deleted")){
+                                    MainActivity.getInstance().wlogStatus(false);
+                                    MainActivity.getInstance().wName(null,null);
+                                    Intent intent=new Intent(Account_Details.this,LogIn_Activity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                    startActivity(intent);
+                                    ActivityCompat.finishAffinity(Account_Details.this);
+                                    Toast.makeText(Account_Details.this, "Account has been deleted permanently", Toast.LENGTH_SHORT).show();
+
+                                }else if(response.body().getResponse().equals("failed")) {
+                                    Toast.makeText(Account_Details.this, "Something error occurred..please try again "+MainActivity.getInstance().r_user_name(), Toast.LENGTH_SHORT).show();
+
+                                }
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<User> call, Throwable t) {
+
+                            }
+                        });
+                    }
+                });
+
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                AlertDialog alertDialog=builder.create();
+                alertDialog.show();
 
             }
         });
@@ -84,6 +146,14 @@ public class Account_Details extends AppCompatActivity {
 
 
 
+    }
+
+    @Override
+    public void onUserInteraction() {
+        if(getCurrentFocus()!=null){
+            manager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),0);
+
+        }
     }
 
     private void authenticate_user() {
@@ -112,7 +182,7 @@ public class Account_Details extends AppCompatActivity {
                     Cell_number.setText("Cell Number : "+info_getter.getCell_number());
 
                 }else {
-                    Toast.makeText(Account_Details.this, "Na thik Nai", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Account_Details.this, "Incorrect Password", Toast.LENGTH_SHORT).show();
 
 
 
@@ -124,7 +194,13 @@ public class Account_Details extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                Toast.makeText(Account_Details.this, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
+                if (t instanceof NetworkErrorException){
+                    Toast.makeText(Account_Details.this, "Check internet connection", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(Account_Details.this, "something Error Occured ..try later", Toast.LENGTH_SHORT).show();
+
+                }
+
 
             }
         });

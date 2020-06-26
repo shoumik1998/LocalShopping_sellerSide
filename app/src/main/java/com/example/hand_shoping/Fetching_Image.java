@@ -43,4 +43,12 @@ public class Fetching_Image {
     public String getResponse() {
         return response;
     }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
+    public void setPrice(String price) {
+        Price = price;
+    }
 }

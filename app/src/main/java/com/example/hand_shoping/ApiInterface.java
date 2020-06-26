@@ -37,5 +37,13 @@ public interface ApiInterface {
     @GET("details_fetching.php")
     Call<User> user_authentication(@Query("user_name") String User_name,@Query("user_password") String user_password);
 
+    @FormUrlEncoded
+    @POST("account_delete.php")
+   Call<User> account_delete_forever(@Field("user_name")String User_Name);
+
+    @FormUrlEncoded
+    @POST("update_products.php")
+    Call<Fetching_Image> update_product(@Field("id") int Id,@Field("user_name") String User_name,@Field("product_name") String Product_name,@Field("product_price") int Product_price);
+
 
 }
