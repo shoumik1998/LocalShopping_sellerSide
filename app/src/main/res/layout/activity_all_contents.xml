@@ -4,13 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e2e8e2"
+    android:background="#FFFFFF"
     android:layout_gravity="center"
     android:orientation="vertical"
     tools:context=".AllContents">
 
-    <include
-        layout="@layout/toolbar_layout"/>
+    <FrameLayout
+        android:id="@+id/AllContents_framID"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/Allcontents_toolbarID"
+            style="@style/AppTheme.AppBarOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#FFFFFF" />
+
+        <TextView
+            android:textStyle="bold"
+            android:textColor="#F60AA6"
+            android:text="0 items selected"
+            android:id="@+id/counter_text_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </FrameLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_gravity="center"

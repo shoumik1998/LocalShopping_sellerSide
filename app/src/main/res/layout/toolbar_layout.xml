@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.appcompat.widget.Toolbar
-    android:id="@+id/toolbarID"
-    android:background="#8181ff"
+    android:id="@+id/toolbar_layoutID"
+    android:background="#FFFFFF"
     android:minHeight="?attr/actionBarSize"
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -13,7 +13,7 @@
 
         <TextView
             android:textStyle="bold"
-            android:textColor="#FFFFFF"
+            android:textColor="#F60AA6"
             android:text="0 items selected"
             android:id="@+id/counter_text_id"
             android:layout_width="wrap_content"

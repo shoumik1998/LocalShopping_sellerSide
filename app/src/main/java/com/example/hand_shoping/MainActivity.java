@@ -3,6 +3,7 @@ package com.example.hand_shoping;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
@@ -63,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
     String storage_permission[];
     private Uri image_uri;
     private Bitmap bitmap;
+    private Toolbar toolbar;
 
 
     private  static final  int IMG_PICK_CAM_CODE=3;
@@ -75,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ccccff")));
 
         sharedPreferences=getSharedPreferences("myFile", Context.MODE_PRIVATE);
         mainActivity=this;
@@ -83,20 +84,23 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(MainActivity.this, LogIn_Activity.class));
             finish();
         }
-        textView = findViewById(R.id.mainTextID);
+        toolbar=findViewById(R.id.toolbarID);
+        setSupportActionBar(toolbar);
+        textView = findViewById(R.id.display_shop_nameID);
         imageView=findViewById(R.id.mainImgID);
         cambtn=findViewById(R.id.camID);
         galbtn=findViewById(R.id.galaryID);
+        uploadBtn=findViewById(R.id.uploadbtnID);
+        uploadBtn.setBackgroundDrawable(getResources().getDrawable(R.drawable.custom_up_btn_disable));
+        uploadBtn.setEnabled(false);
         titleEditxt=findViewById(R.id.titleeditID);
         priceEditxt=findViewById(R.id.priceeditID);
-        uploadBtn=findViewById(R.id.uploadbtnID);
         textView.setText(rName());
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
 
 
 
-        if (!uploadBtn.isEnabled()){
-            uploadBtn.setBackgroundColor(Color.parseColor("#828e93"));
-        }
+
 
         uploadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,10 +117,7 @@ public class MainActivity extends AppCompatActivity {
         cambtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                     cam_picker();
-
-
             }
         });
 
@@ -226,7 +227,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private  void  gallery_picker(){
-        CropImage.activity(image_uri).start(this);
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, IMG_PICK_GALLERY_CODE);
 
     }
 
@@ -235,6 +238,9 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode==RESULT_OK) {
             if (requestCode == IMG_PICK_GALLERY_CODE) {
+                CropImage.activity(data.getData()).setGuidelines(CropImageView.Guidelines.ON)
+                        .start(this);
+
             }  else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
                 if (resultCode == RESULT_OK) {
@@ -247,14 +253,13 @@ public class MainActivity extends AppCompatActivity {
                         imageView.setImageURI(result_uri);
                         imageView.setVisibility(View.VISIBLE);
                         uploadBtn.setEnabled(true);
-                        uploadBtn.setBackgroundColor(Color.parseColor("#2f444b"));
+                        uploadBtn.setBackgroundDrawable(getResources().getDrawable(R.drawable.custom_up_btn));
                         titleEditxt.setVisibility(View.VISIBLE);
                         priceEditxt.setVisibility(View.VISIBLE);
                         cambtn.setEnabled(false);
-                        cambtn.setBackgroundColor(Color.parseColor("#7f7fff"));
+                        cambtn.setBackgroundDrawable(getResources().getDrawable(R.drawable.custom_cam_btn_disable));
                         galbtn.setEnabled(false);
-                        galbtn.setBackgroundColor(Color.parseColor("#c69dfb"));
-
+                        galbtn.setBackgroundDrawable(getResources().getDrawable(R.drawable.custom_gal_btn_disable));
                         titleEditxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
                             @Override
                             public void onFocusChange(View v, boolean hasFocus) {
@@ -349,7 +354,7 @@ public class MainActivity extends AppCompatActivity {
                             galbtn.setEnabled(true);
                             galbtn.setBackgroundColor(Color.parseColor("#a05cf9"));
                             uploadBtn.setEnabled(false);
-                            uploadBtn.setBackgroundColor(Color.parseColor("#828e93"));
+                           uploadBtn.setBackgroundDrawable(getResources().getDrawable(R.drawable.custom_up_btn_disable));
                             priceEditxt.setText("");
                             titleEditxt.setText("");
                         }else if(response.body().getResponse().contains("Exist")) {

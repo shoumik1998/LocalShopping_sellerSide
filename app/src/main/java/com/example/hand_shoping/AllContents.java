@@ -58,12 +58,12 @@ public class AllContents extends AppCompatActivity implements View.OnLongClickLi
         recyclerView=findViewById(R.id.recyclerID);
         layoutManager=new GridLayoutManager(this,2);
         recyclerView.setLayoutManager(layoutManager);
-        toolbar=findViewById(R.id.toolbarID);
+        toolbar=findViewById(R.id.Allcontents_toolbarID);
         counter_text_view=findViewById(R.id.counter_text_id);
         counter_text_view.setVisibility(View.GONE);
         selected_id=new ArrayList<>();
-
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         fetch_all_products();
     }
 

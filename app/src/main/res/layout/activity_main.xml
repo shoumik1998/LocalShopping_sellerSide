@@ -3,26 +3,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="#FFFFFF"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
-
-    <TextView
-        android:focusable="true"
-        android:textColor="#4e1dff"
-        android:id="@+id/mainTextID"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerInParent="true"
-        android:text="shop name"
-        android:textSize="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/titleeditID"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+    <FrameLayout
+        android:id="@+id/main_framID"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.031"
-        tools:ignore="MissingConstraints" />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbarID"
+            style="@style/AppTheme.AppBarOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#FFFFFF" />
+
+        <TextView
+            android:layout_gravity="center"
+            android:textColor="@color/colorAccent"
+            android:textSize="20dp"
+            android:gravity="center"
+            android:id="@+id/display_shop_nameID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </FrameLayout>
+
 
     <EditText
     android:id="@+id/titleeditID"
@@ -32,7 +39,7 @@
     android:visibility="gone"
     app:layout_constraintBottom_toTopOf="@+id/priceeditID"
     app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toBottomOf="@+id/mainTextID"
+    app:layout_constraintTop_toBottomOf="@+id/main_framID"
     tools:ignore="MissingConstraints" />
 
     <EditText
@@ -41,6 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="price...."
+        app:layout_constraintTop_toBottomOf="@+id/titleeditID"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/imgLayID"
         tools:ignore="MissingConstraints" />
@@ -51,8 +59,7 @@
         android:layout_height="250dp"
         android:layout_marginBottom="36dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/titleeditID"
-        app:layout_constraintTop_toBottomOf="@+id/mainTextID"
+        app:layout_constraintTop_toBottomOf="@+id/priceeditID"
         app:layout_constraintVertical_bias="0.0"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="0dp">
@@ -68,24 +75,18 @@
 
 
     </LinearLayout>
-
-
-
-
     <Button
         android:textColor="#FFFFFF"
-        android:background="#2f444b"
         android:id="@+id/uploadbtnID"
         android:layout_width="280dp"
         android:layout_height="43dp"
         android:layout_marginBottom="24dp"
-        android:enabled="false"
         android:text="Upload Image"
         app:layout_constraintBottom_toTopOf="@+id/btnsLayoutID"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints" />
+        tools:ignore="MissingConstraints"/>
 
     <LinearLayout
         android:id="@+id/btnsLayoutID"
@@ -96,9 +97,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
         <Button
+            android:background="@drawable/custom_cam_btn"
             android:layout_margin="5dp"
             android:textColor="#FFFFFF"
-            android:background="#0000ff"
             android:id="@+id/camID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -107,9 +108,9 @@
              />
 
         <Button
+            android:background="@drawable/custom_gal_btn"
             android:layout_margin="5dp"
             android:textColor="#FFFFFF"
-            android:background="#a05cf9"
             android:id="@+id/galaryID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
