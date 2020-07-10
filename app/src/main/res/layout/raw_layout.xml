@@ -28,12 +28,14 @@
                 android:layout_height="170dp"/>
 
             <TextView
+                android:fontFamily="sans-serif-thin"
                 android:textColor="@color/colorAccent"
                 android:id="@+id/proNameID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
             <TextView
+                android:fontFamily="sans-serif-thin"
                 android:textColor="#0000ff"
                 android:id="@+id/propriceID"
                 android:layout_width="wrap_content"

@@ -20,6 +20,7 @@
             android:background="#FFFFFF" />
 
         <TextView
+            android:fontFamily="sans-serif-thin"
             android:layout_gravity="center"
             android:textColor="@color/colorAccent"
             android:textSize="20dp"
