@@ -18,6 +18,15 @@ public class Fetching_Image {
     @SerializedName("currency")
     String Currency;
 
+    boolean checker;
+
+    public boolean isChecked() {
+        return checker;
+    }
+
+    public void setChecked(boolean checker) {
+        this.checker = checker;
+    }
 
     public String getName() {
         return Name;

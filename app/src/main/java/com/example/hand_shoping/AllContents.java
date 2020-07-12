@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -32,10 +33,10 @@ public class AllContents extends AppCompatActivity implements View.OnLongClickLi
 
     private RecyclerView recyclerView;
     private  RecyclerView.LayoutManager layoutManager;
+    private Parcelable state;
     private List<Fetching_Image> myImage;
     private  RecyclerAdapter adapter;
     private ApiInterface apiInterface;
-    private Context context;
     private  Fetching_Image fetching_image;
     RecyclerAdapter.MyViewHolder myViewHolder;
     private Toolbar toolbar;
@@ -45,7 +46,7 @@ public class AllContents extends AppCompatActivity implements View.OnLongClickLi
     ArrayList<Integer> selected_id;
     ArrayList<Integer> tempList=new ArrayList<>();
     int count=0;
-    CheckBox checkBox;
+
 
 
 
@@ -109,6 +110,9 @@ public class AllContents extends AppCompatActivity implements View.OnLongClickLi
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+
+
+
                 return false;
             }
 
@@ -245,4 +249,5 @@ public class AllContents extends AppCompatActivity implements View.OnLongClickLi
 
 
     }
+
 }

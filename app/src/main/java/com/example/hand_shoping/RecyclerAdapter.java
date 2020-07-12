@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Filter;
 import android.widget.Filterable;
@@ -64,6 +65,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             holder.checkBox.setVisibility(View.VISIBLE);
             holder.checkBox.setChecked(false);
         }
+
+        if (myImg.isChecked()){
+            holder.checkBox.setChecked(true);
+        }else {
+            holder.checkBox.setChecked(false);
+        }
+
+
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -193,7 +202,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             cardView.setLongClickable(true);
             cardView.setOnLongClickListener(allContents);
             checkBox.setOnClickListener(this);
-            cardView.setOnClickListener(this);
 
 
         }
@@ -201,6 +209,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
         @Override
         public void onClick(View v) {
+            if (myImage.get(getAdapterPosition()).isChecked()){
+                ((CheckBox)v).setChecked(false);
+                myImage.get(getAdapterPosition()).setChecked(false);
+            }else {
+                ((CheckBox)v).setChecked(true);
+                myImage.get(getAdapterPosition()).setChecked(true);
+
+            }
             allContents.prepareSelection(v,getAdapterPosition());
 
         }
