@@ -33,18 +33,20 @@ public class AllContents extends AppCompatActivity implements View.OnLongClickLi
 
     private RecyclerView recyclerView;
     private  RecyclerView.LayoutManager layoutManager;
-    private Parcelable state;
     private List<Fetching_Image> myImage;
     private  RecyclerAdapter adapter;
     private ApiInterface apiInterface;
     private  Fetching_Image fetching_image;
-    RecyclerAdapter.MyViewHolder myViewHolder;
     private Toolbar toolbar;
+    private  SearchView searchView;
+    private  SearchManager searchManager;
     boolean is_in_action_mode=false;
     TextView counter_text_view;
     ArrayList<Fetching_Image> selection_img=new ArrayList<>();
     ArrayList<Integer> selected_id;
-    ArrayList<Integer> tempList=new ArrayList<>();
+    ArrayList<Integer> tempList_ID=new ArrayList<>();
+    ArrayList<Fetching_Image> tempList_Image=new ArrayList<>();
+
     int count=0;
 
 
@@ -90,7 +92,7 @@ public class AllContents extends AppCompatActivity implements View.OnLongClickLi
 
             @Override
             public void onFailure(Call<List<Fetching_Image>> call, Throwable t) {
-                Toast.makeText(AllContents.this, "Connection failed ... please try again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AllContents.this, "Connection failed , please try again", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -101,25 +103,24 @@ public class AllContents extends AppCompatActivity implements View.OnLongClickLi
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search_menu,menu);
-       SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.searchitemID));
-        SearchManager searchManager=(SearchManager)getSystemService(SEARCH_SERVICE);
+        MenuItem menuItem=menu.findItem(R.id.searchitemID);
+        searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
+         searchManager=(SearchManager)getSystemService(SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setSubmitButtonEnabled(true);
-        searchView.setQueryHint("Search product by name");
+        searchView.setQueryHint("Search product ");
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
-
-
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (myImage!=null) {
+                if (newText!=null) {
                     adapter.getFilter().filter(newText);
+                    Toast.makeText(AllContents.this, "You Typed : "+newText, Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(AllContents.this, "Wait till fetching products properly ", Toast.LENGTH_SHORT).show();
                 }
@@ -128,27 +129,38 @@ public class AllContents extends AppCompatActivity implements View.OnLongClickLi
             }
         });
 
-
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
        if (item.getItemId()==R.id.delete_item_id){
-           RecyclerAdapter recyclerAdapter=(RecyclerAdapter) adapter;
+           RecyclerAdapter recyclerAdapter= adapter;
            recyclerAdapter.update_Adapter(selection_img);
            reset_actionbar();
            delete_products();
 
+
        }else if (item.getItemId()==android.R.id.home){
-           reset_actionbar();
-           adapter.notifyDataSetChanged();
+           if (is_in_action_mode){
+               finish();
+               overridePendingTransition(0,0);
+               startActivity(getIntent());
+               overridePendingTransition(0,0);
+           }else {
+               finish();
+           }
+
        }else  if(item.getItemId()==R.id.acc_detailsID){
            startActivity(new Intent(AllContents.this,Account_Details.class));
        }
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void overridePendingTransition(int enterAnim, int exitAnim) {
+        super.overridePendingTransition(enterAnim, exitAnim);
+    }
 
     @Override
     public boolean onLongClick(View v) {
@@ -167,24 +179,16 @@ public class AllContents extends AppCompatActivity implements View.OnLongClickLi
         if (((CheckBox)view).isChecked()){
             selection_img.add(myImage.get(position));
             selected_id.add(myImage.get(position).getId());
-            try{
-                selected_id.add(myImage.get(position).getId());
-
-            }catch (Exception e){
-                Toast.makeText(this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
-
-            }
-
             count=count+1;
             update_selection(count);
-
-
         }else{
             try {
                 for (int i = 0; i <= selected_id.size(); i++) {
-                    tempList.add(myImage.get(position).getId());
+                    tempList_ID.add(myImage.get(position).getId());
+                    tempList_Image.add(myImage.get(position));
                 }
-                selected_id.removeAll(tempList);
+                selected_id.removeAll(tempList_ID);
+                selection_img.removeAll(tempList_Image);
             } catch (Exception e) {
                 Toast.makeText(this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -206,16 +210,16 @@ public class AllContents extends AppCompatActivity implements View.OnLongClickLi
 
     }
 
-    public  void  reset_actionbar(){
-        is_in_action_mode=false;
+    public  void  reset_actionbar() {
+        is_in_action_mode = false;
         toolbar.getMenu().clear();
         toolbar.inflateMenu(R.menu.search_menu);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         counter_text_view.setVisibility(View.GONE);
-        counter_text_view.setText("0 selected");
-        count=0;
+        count = 0;
         selection_img.clear();
     }
+
 
     @Override
     public void onBackPressed() {
@@ -232,22 +236,22 @@ public class AllContents extends AppCompatActivity implements View.OnLongClickLi
     public  void  delete_products(){
         apiInterface=ApiClient.getApiClient().create(ApiInterface.class);
         Call<List<Fetching_Image>> call=apiInterface.delete_products(selected_id);
-
         call.enqueue(new Callback<List<Fetching_Image>>() {
             @Override
             public void onResponse(Call<List<Fetching_Image>> call, Response<List<Fetching_Image>> response) {
+
 
             }
 
             @Override
             public void onFailure(Call<List<Fetching_Image>> call, Throwable t) {
 
-
-
             }
         });
 
 
     }
+
+
 
 }

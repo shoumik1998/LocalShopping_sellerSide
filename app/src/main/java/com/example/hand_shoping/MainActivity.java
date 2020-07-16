@@ -8,6 +8,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.accounts.NetworkErrorException;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContentValues;
@@ -350,9 +351,9 @@ public class MainActivity extends AppCompatActivity {
                             ImageClass imageClass = response.body();
                             Toast.makeText(MainActivity.this, " Image uploaded successfully ", Toast.LENGTH_SHORT).show();
                             cambtn.setEnabled(true);
-                            cambtn.setBackgroundColor(Color.parseColor("#0000ff"));
+                            cambtn.setBackgroundDrawable(getResources().getDrawable(R.drawable.custom_cam_btn));
                             galbtn.setEnabled(true);
-                            galbtn.setBackgroundColor(Color.parseColor("#a05cf9"));
+                            galbtn.setBackgroundDrawable(getResources().getDrawable(R.drawable.custom_gal_btn));
                             uploadBtn.setEnabled(false);
                            uploadBtn.setBackgroundDrawable(getResources().getDrawable(R.drawable.custom_up_btn_disable));
                             priceEditxt.setText("");
@@ -371,7 +372,13 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<ImageClass> call, Throwable t) {
-                        Toast.makeText(MainActivity.this, "Can not connect to server", Toast.LENGTH_SHORT).show();
+                        if (t instanceof NetworkErrorException){
+                            Toast.makeText(MainActivity.this, "Check Internet Connection", Toast.LENGTH_SHORT).show();
+                        }else {
+                            Toast.makeText(MainActivity.this, "An Error Occurred , " +
+                                    "Please try Again", Toast.LENGTH_SHORT).show();
+                        }
+
 
                     }
                 });

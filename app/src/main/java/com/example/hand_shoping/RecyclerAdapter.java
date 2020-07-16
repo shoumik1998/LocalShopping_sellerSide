@@ -199,7 +199,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
             this.allContents=allContents;
             cardView=itemView.findViewById(R.id.cardID);
-            cardView.setLongClickable(true);
             cardView.setOnLongClickListener(allContents);
             checkBox.setOnClickListener(this);
 
@@ -218,9 +217,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
             }
             allContents.prepareSelection(v,getAdapterPosition());
-
+            checkBox=(CheckBox) v;
         }
-
 
     }
 
@@ -231,9 +229,5 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         notifyDataSetChanged();
 
     }
-
-
-
-
 
 }
