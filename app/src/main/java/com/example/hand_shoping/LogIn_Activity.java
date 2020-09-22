@@ -8,9 +8,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +27,7 @@ public class LogIn_Activity extends AppCompatActivity {
     private Button loginbtn;
     private TextView createAccTextV,Forgate_password;
     private EditText User_name,User_password;
+    private ImageView Password_Visibility;
     protected   static SharedPreferences sharedPreferences;
     public Context context;
     public   ApiInterface apiInterface;
@@ -39,8 +43,24 @@ public class LogIn_Activity extends AppCompatActivity {
         User_name=findViewById(R.id.LogIneditusernameID);
         User_password=findViewById(R.id.logIneditpassID);
         Forgate_password=findViewById(R.id.forgatePassID);
+        Password_Visibility = findViewById(R.id.log_pass_visibilityID);
 
         apiInterface=ApiClient.getApiClient().create(ApiInterface.class);
+
+        Password_Visibility.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (User_password.getTransformationMethod().equals(PasswordTransformationMethod.getInstance())) {
+                    Password_Visibility.setImageResource(R.drawable.visibility_of);
+                    User_password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                } else {
+                    Password_Visibility.setImageResource(R.drawable.visibility_image);
+                    User_password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }
+            }
+        });
+
+
 
 
         loginbtn.setOnClickListener(new View.OnClickListener() {
@@ -100,11 +120,7 @@ public class LogIn_Activity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                if (t instanceof SocketTimeoutException ){
-                    Toast.makeText(LogIn_Activity.this, "Can not reach to server , try later", Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(LogIn_Activity.this, "Check your internet connection", Toast.LENGTH_SHORT).show();
-                }
+                Toast.makeText(LogIn_Activity.this, ""+t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

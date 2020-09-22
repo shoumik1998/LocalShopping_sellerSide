@@ -10,26 +10,50 @@
 
 
     <EditText
+        android:padding="5dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/user_name_back"
         android:textColorHint="#696666"
-        android:textColor="#000000"
+        android:textColor="#f7347a"
         android:textSize="20dp"
-        android:hint="User Name please .."
+        android:hint="User Name please ..."
         android:id="@+id/LogIneditusernameID"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-    <EditText
-        android:textColorHint="#696666"
-        android:textColor="#000000"
-        android:textSize="20dp"
-        android:inputType="textPassword"
-        android:hint="Password  please ...."
-        android:id="@+id/logIneditpassID"
+        android:layout_height="50dp"/>
+    <RelativeLayout
+        android:layout_margin="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:padding="5dp"
+            android:background="@drawable/user_name_back"
+            android:textColorHint="#696666"
+            android:textColor="#f7347a"
+            android:textSize="20dp"
+            android:inputType="textPassword"
+            android:hint="Password  please ...."
+            android:id="@+id/logIneditpassID"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"/>
+
+        <ImageView
+            android:id="@+id/log_pass_visibilityID"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center"
+            android:src="@drawable/visibility_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+
 
     <Button
-        android:background="#ff0000"
+        android:textSize="24dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/log_btn_back"
         android:textColor="#FFFFFF"
         android:id="@+id/loginBtnID"
         android:layout_width="220dp"

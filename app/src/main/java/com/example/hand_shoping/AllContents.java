@@ -92,7 +92,7 @@ public class AllContents extends AppCompatActivity implements View.OnLongClickLi
 
             @Override
             public void onFailure(Call<List<Fetching_Image>> call, Throwable t) {
-                Toast.makeText(AllContents.this, "Connection failed , please try again", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AllContents.this, "Connection failed , please try again"+t.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
         });

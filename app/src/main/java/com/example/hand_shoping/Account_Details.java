@@ -9,10 +9,13 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +29,7 @@ import retrofit2.Response;
 public class Account_Details extends AppCompatActivity {
     private EditText Password;
     private Button Submit,Update,Delete_Forever;
+    private ImageView Password_Visibility;
     private TextView Country,District,SubDistrict,Region,Location,Name,Currency,Cell_number,User_Name;
     private  ApiInterface apiInterface;
     private LinearLayout info_holder;
@@ -52,11 +56,26 @@ public class Account_Details extends AppCompatActivity {
         Cell_number=findViewById(R.id.acc_det_cell_numberID);
         User_Name=findViewById(R.id.acc_det_userNameID);
         info_holder=findViewById(R.id.acc_detAllID);
+        Password_Visibility = findViewById(R.id.acc_detail_pass_visibilityID);
 
         Password.requestFocus();
 
          manager= (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
          manager.toggleSoftInput(InputMethodManager.SHOW_FORCED,0);
+
+         Password_Visibility.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 if (Password.getTransformationMethod().equals(PasswordTransformationMethod.getInstance())) {
+                     Password_Visibility.setImageResource(R.drawable.visibility_of);
+                     Password.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                 } else {
+                     Password_Visibility.setImageResource(R.drawable.visibility_image);
+                     Password.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                 }
+             }
+         });
+
 
 
 
@@ -148,13 +167,13 @@ public class Account_Details extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onUserInteraction() {
-        if(getCurrentFocus()!=null){
-            manager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),0);
-
-        }
-    }
+//    @Override
+//    public void onUserInteraction() {
+//        if(getCurrentFocus()!=null){
+//            manager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(),0);
+//
+//        }
+//    }
 
     private void authenticate_user() {
         String password=Password.getText().toString();

@@ -6,9 +6,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.PhoneNumberUtils;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,10 +19,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.example.hand_shoping.R.drawable.visibility_of;
+
 public class CreateAccount extends AppCompatActivity {
     public EditText Country,District,Sub_district,Shop_region,Shop_Location, Name,Currency,Cell_number,UserName,UserPassword;
     private Button CreateAccButton,Update_Button;
     private TextView Helper;
+    private ImageView Password_visibility;
     public  static ApiInterface apiInterface;
     public static int selector_code;
     public static CreateAccount createAccount;
@@ -39,11 +45,26 @@ public class CreateAccount extends AppCompatActivity {
         Cell_number=findViewById(R.id.CAcceditcellNumberID);
         UserName=findViewById(R.id.CaccounteditusernameID);
         UserPassword=findViewById(R.id.CccounteditpassID);
+        Password_visibility = findViewById(R.id.create_ac_pass_visibilityID);
         CreateAccButton=findViewById(R.id.CaccountBtnID);
         Update_Button=findViewById(R.id.cAcc_updateID);
         Helper=findViewById(R.id.helpID);
         apiInterface=ApiClient.getApiClient().create(ApiInterface.class);
         createAccount=this;
+
+        Password_visibility.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (UserPassword.getTransformationMethod().equals(PasswordTransformationMethod.getInstance())){
+                    Password_visibility.setImageResource(visibility_of);
+                    UserPassword.setTransformationMethod(HideReturnsTransformationMethod.getInstance());
+                }else {
+                    Password_visibility.setImageResource(R.drawable.visibility_image);
+                    UserPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                }
+
+            }
+        });
 
         if (selector_code==1){
             CreateAccButton.setVisibility(View.GONE);
@@ -68,13 +89,6 @@ public class CreateAccount extends AppCompatActivity {
 
 
         }
-
-
-
-
-
-
-
         CreateAccButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

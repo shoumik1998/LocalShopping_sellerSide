@@ -357,7 +357,10 @@ public class MainActivity extends AppCompatActivity {
                             uploadBtn.setEnabled(false);
                            uploadBtn.setBackgroundDrawable(getResources().getDrawable(R.drawable.custom_up_btn_disable));
                             priceEditxt.setText("");
+                            priceEditxt.setVisibility(View.GONE);
                             titleEditxt.setText("");
+                            titleEditxt.setVisibility(View.GONE);
+                            imageView.setVisibility(View.GONE);
                         }else if(response.body().getResponse().contains("Exist")) {
                             Toast.makeText(MainActivity.this, "Already Exists This Name", Toast.LENGTH_SHORT).show();
                         }else if(response.body().getResponse().contains("Invalid")) {

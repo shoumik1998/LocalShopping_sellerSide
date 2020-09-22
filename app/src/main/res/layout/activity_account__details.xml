@@ -9,19 +9,40 @@
     android:orientation="vertical"
     tools:context=".Account_Details">
 
-    <EditText
-        android:layout_marginBottom="30dp"
-        android:id="@+id/acc_details_editID"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter your password" />
+        android:layout_height="wrap_content">
+        <EditText
+            android:background="@null"
+            android:inputType="textPassword"
+            android:padding="5dp"
+            android:textColor="#20CAC3"
+            android:layout_marginBottom="30dp"
+            android:id="@+id/acc_details_editID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter your password" />
+        <ImageView
+            android:layout_margin="10dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/visibility_image"
+            android:id="@+id/acc_detail_pass_visibilityID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true" />
+
+    </RelativeLayout>
+
+
 
     <Button
+        android:textSize="22dp"
         android:layout_marginBottom="90dp"
         android:id="@+id/acc_details_submitBtnID"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:background="#20CAC3"
+        android:background="@drawable/submit_back"
         android:text="Submit"
         android:textColor="#FFFFFF" />
 
@@ -110,28 +131,30 @@
 
 
         <Button
+            android:textSize="18dp"
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_margin="8dp"
             android:padding="8dp"
             android:textColor="#FFFFFF"
-            android:background="#00E2FF"
+            android:background="@drawable/submit_back"
             android:text="Update Account"
             android:id="@+id/acc_det_updateID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_width="250dp"
+            android:layout_height="50dp"/>
 
         <Button
+            android:textSize="18dp"
             android:layout_gravity="center"
             android:gravity="center"
             android:layout_margin="8dp"
             android:padding="8dp"
-            android:background="#FA00D4"
+            android:background="@drawable/log_btn_back"
             android:textColor="#FFFFFF"
             android:text="Delete Account Forever"
             android:id="@+id/acc_deletbtnID"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_width="250dp"
+            android:layout_height="50dp"/>
 
     </LinearLayout>
 

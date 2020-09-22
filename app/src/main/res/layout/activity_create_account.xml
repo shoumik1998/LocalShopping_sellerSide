@@ -9,98 +9,145 @@
     tools:context=".CreateAccount">
 
     <EditText
+        android:padding="4dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/create_acc_back"
         android:textColor="#6948f6"
-        android:hint=" country/state "
+        android:hint=" country/state ... "
         android:id="@+id/CAcceditCountrynameID"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="40dp"/>
 
     <EditText
+        android:padding="4dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/create_acc_back"
         android:textColor="#6948f6"
         android:hint=" district ..."
         android:id="@+id/CAcceditDistrictnameID"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="40dp"/>
 
     <EditText
+        android:padding="4dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/create_acc_back"
         android:textColor="#6948f6"
-        android:hint="sub district . ..."
+        android:hint="sub district/ Thana ..."
         android:id="@+id/CAcceditSubDistrictnameID"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="40dp"/>
 
     <EditText
+        android:padding="4dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/create_acc_back"
         android:textColor="#6948f6"
         android:hint=" Shop region name ..."
         android:id="@+id/CAcceditShopRegionnameID"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="40dp"/>
     <EditText
+        android:padding="4dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/create_acc_back"
         android:textColor="#6948f6"
         android:hint=" Shop Location ..."
         android:id="@+id/CAcceditShopLocationnameID"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="40dp"/>
 
 
     <EditText
+        android:padding="4dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/create_acc_back"
         android:textColor="#a6008e"
         android:hint="Shop Name please ..."
         android:id="@+id/CAcceditnameID"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="40dp"/>
 
     <EditText
+        android:padding="4dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/create_acc_back"
         android:textColor="#a6008e"
         android:hint="Currency please ..."
         android:id="@+id/CAcceditcurrencyID"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="40dp"/>
     <EditText
+        android:padding="4dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/create_acc_back"
         android:inputType="phone"
         android:textColor="#a6008e"
         android:hint="Mobile Number with country code   please ..."
         android:id="@+id/CAcceditcellNumberID"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="40dp"/>
 
 
     <EditText
+        android:padding="4dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/user_name_back"
         android:textColor="#ff0000"
-        android:hint="User Name please ....(must be unique)"
+        android:hint="User Name please ...(must be unique)"
         android:id="@+id/CaccounteditusernameID"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="40dp"/>
 
-    <EditText
-        android:textColor="#ff0000"
-        android:inputType="textPassword"
-        android:hint="Password  please ...."
-        android:id="@+id/CccounteditpassID"
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content">
 
+        <EditText
+            android:padding="4dp"
+            android:layout_margin="5dp"
+            android:background="@drawable/user_name_back"
+            android:textColor="#ff0000"
+            android:inputType="textPassword"
+            android:hint="Password  please ..."
+            android:id="@+id/CccounteditpassID"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"/>
+        <ImageView
+            android:layout_marginRight="10dp"
+            android:layout_centerVertical="true"
+            android:layout_margin="5dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/visibility_image"
+            android:id="@+id/create_ac_pass_visibilityID"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
 
     <Button
-        android:layout_marginBottom="50dp"
+        android:textSize="18dp"
+        android:layout_marginBottom="20dp"
         android:padding="10dp"
         android:textColor="#FFFFFF"
-        android:background="#0000ff"
+        android:background="@drawable/create_btn_back"
         android:id="@+id/CaccountBtnID"
         android:text="CREATE ACCOUNT"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"/>
 
     <Button
+        android:textSize="22dp"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/submit_back"
         android:visibility="gone"
         android:id="@+id/cAcc_updateID"
         android:padding="5dp"
         android:text="Update Account "
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"/>
 
     <TextView
-        android:padding="10dp"
         android:textColor="#a6008e"
         android:id="@+id/helpID"
         android:layout_width="wrap_content"
