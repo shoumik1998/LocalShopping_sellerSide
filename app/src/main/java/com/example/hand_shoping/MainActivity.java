@@ -45,6 +45,7 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 import id.zelory.compressor.Compressor;
 import retrofit2.Call;
@@ -166,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
         switch (id){
             case  R.id.logOutID:
                 wlogStatus(false);
-                wName("user","user_name");
+                wName("","");
                 startActivity(new Intent(MainActivity.this, LogIn_Activity.class));
                 finish();
                 return true;
@@ -340,14 +341,21 @@ public class MainActivity extends AppCompatActivity {
 
                    int   Price=Integer.parseInt(Pricestring);
 
+                HashMap<String ,String> upload_map=new HashMap<>();
+                upload_map.put("title",Title);
+                upload_map.put("images",Image);
+                upload_map.put("price",String.valueOf(Price));
+                upload_map.put("user_name",r_user_name());
+
+
 
                 ApiInterface apiInterface=ApiClient.getApiClient().create(ApiInterface.class);
-                Call<ImageClass> call=apiInterface.uploadImage(Title,Image,Price,r_user_name());
+                Call<ImageClass> call=apiInterface.uploadImage(upload_map);
 
                 call.enqueue(new Callback<ImageClass>() {
                     @Override
                     public void onResponse(Call<ImageClass> call, Response<ImageClass> response) {
-                        if (response.body().getResponse().contains("Successful")) {
+                        if (response.body().getResponse().equals("uploaded")) {
                             ImageClass imageClass = response.body();
                             Toast.makeText(MainActivity.this, " Image uploaded successfully ", Toast.LENGTH_SHORT).show();
                             cambtn.setEnabled(true);
@@ -379,7 +387,7 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(MainActivity.this, "Check Internet Connection", Toast.LENGTH_SHORT).show();
                         }else {
                             Toast.makeText(MainActivity.this, "An Error Occurred , " +
-                                    "Please try Again", Toast.LENGTH_SHORT).show();
+                                    "Please try Again "+t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
 
 

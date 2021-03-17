@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -180,7 +181,11 @@ public class Account_Details extends AppCompatActivity {
 
         apiInterface=ApiClient.getApiClient().create(ApiInterface.class);
 
-        Call<User> call=apiInterface.user_authentication(MainActivity.getInstance().r_user_name(),password);
+        HashMap<String,String> map=new HashMap<>();
+        map.put("user_name",MainActivity.getInstance().r_user_name());
+        map.put("user_password",password);
+
+        Call<User> call=apiInterface.user_authentication(map);
 
         call.enqueue(new Callback<User>() {
             @Override
@@ -189,6 +194,7 @@ public class Account_Details extends AppCompatActivity {
                     info_holder.setVisibility(View.VISIBLE);
                     Submit.setVisibility(View.GONE);
                     Password.setVisibility(View.GONE);
+                    Password_Visibility.setVisibility(View.GONE);
                      info_getter= response.body();
                     Name.setText("Shop Name : "+info_getter.getName());
                     User_Name.setText("User Name : "+info_getter.getUser_name());
@@ -216,7 +222,7 @@ public class Account_Details extends AppCompatActivity {
                 if (t instanceof NetworkErrorException){
                     Toast.makeText(Account_Details.this, "Check internet connection", Toast.LENGTH_SHORT).show();
                 }else {
-                    Toast.makeText(Account_Details.this, "something Error Occured ..try later", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Account_Details.this, "something Error Occured ..try later"+t.getMessage(), Toast.LENGTH_SHORT).show();
 
                 }
 

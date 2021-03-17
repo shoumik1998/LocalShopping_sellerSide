@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.net.SocketTimeoutException;
+import java.util.HashMap;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -98,23 +99,31 @@ public class LogIn_Activity extends AppCompatActivity {
         String user_name=User_name.getText().toString();
         String user_password=User_password.getText().toString();
 
-        Call<User> call =apiInterface.userLogIn(user_name,user_password);
+        HashMap<String,String> map=new HashMap<>();
+        map.put("user_name",user_name);
+        map.put("user_password",user_password);
+
+        Call<User> call =apiInterface.userLogIn(map);
 
         call.enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
-                if (response.body().getResponse().equals("OK")){
-                    Toast.makeText(LogIn_Activity.this, "LogIn Success", Toast.LENGTH_SHORT).show();
-                    MainActivity.getInstance().wlogStatus(true);
-                    MainActivity.getInstance().wName(response.body().getName(),User_name.getText().toString());
-                    Intent intent=new Intent(LogIn_Activity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                if (response.isSuccessful()) {
+                    if (response.body().getResponse().equals("OK")) {
+                        Toast.makeText(LogIn_Activity.this, "LogIn Success", Toast.LENGTH_SHORT).show();
+                        MainActivity.getInstance().wlogStatus(true);
+                        MainActivity.getInstance().wName(response.body().getName(), User_name.getText().toString());
+                        Intent intent = new Intent(LogIn_Activity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
 
 
-                }else if(response.body().getResponse().equals("failed")){
-                    Toast.makeText(LogIn_Activity.this, "This user name is not available", Toast.LENGTH_SHORT).show();
+                    } else if (response.body().getResponse().equals("failed")) {
+                        Toast.makeText(LogIn_Activity.this, "This user name is not available", Toast.LENGTH_SHORT).show();
 
+                    }
+                } else {
+                    Toast.makeText(LogIn_Activity.this, "not responding "+response.toString(), Toast.LENGTH_SHORT).show();
                 }
             }
 

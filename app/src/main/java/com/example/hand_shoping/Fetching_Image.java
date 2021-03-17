@@ -4,9 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 public class Fetching_Image {
 
-    @SerializedName("name")
+    @SerializedName("description")
     String Name;
-    @SerializedName("image_path")
+    @SerializedName("imagepath")
     String Image_Path;
     @SerializedName("price")
     String Price;

@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.HashMap;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -146,8 +148,22 @@ public class CreateAccount extends AppCompatActivity {
             String user_name=UserName.getText().toString();
             String user_password=UserPassword.getText().toString();
 
+            HashMap<String,Object> map=new HashMap<>();
+            map.put("shop_name", name);
+            map.put("user_name", user_name);
+            map.put("user_password", user_password);
+            map.put("country", country);
+            map.put("district", district);
+            map.put("subdistrict", sub_district);
+            map.put("region", shop_region);
+            map.put("location", shop_location);
+            map.put("currency", currency);
+            map.put("cell_number", cell_number);
+            map.put("selector_code", selector_code);
 
-            Call<User> call=apiInterface.userRegistration(name,user_name,user_password,country,district,sub_district,shop_region,shop_location,currency,cell_number,selector_code);
+
+
+            Call<User> call=apiInterface.userRegistration(map);
 
             call.enqueue(new Callback<User>() {
                 @Override

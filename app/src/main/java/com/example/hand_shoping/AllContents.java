@@ -22,7 +22,9 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
@@ -75,8 +77,10 @@ public class AllContents extends AppCompatActivity implements View.OnLongClickLi
     }
 
     public  void  fetch_all_products(){
+        HashMap<String,String> map=new HashMap<>();
+        map.put("user_name", MainActivity.getInstance().r_user_name());
         apiInterface=ApiClient.getApiClient().create(ApiInterface.class);
-        Call<List<Fetching_Image>> call=apiInterface.image_fetching(MainActivity.getInstance().r_user_name());
+        Call<List<Fetching_Image>> call=apiInterface.image_fetching(map);
 
         call.enqueue(new Callback<List<Fetching_Image>>() {
             @Override
@@ -85,14 +89,18 @@ public class AllContents extends AppCompatActivity implements View.OnLongClickLi
                     myImage=response.body();
                     adapter=new RecyclerAdapter(myImage,AllContents.this);
                     recyclerView.setAdapter(adapter);
+
                 }else {
                     Toast.makeText(AllContents.this, "server not respond ..try later", Toast.LENGTH_SHORT).show();
+                    myImage=response.body();
+                    adapter=new RecyclerAdapter(myImage,AllContents.this);
+                    recyclerView.setAdapter(adapter);
                 }
             }
 
             @Override
             public void onFailure(Call<List<Fetching_Image>> call, Throwable t) {
-                Toast.makeText(AllContents.this, "Connection failed , please try again"+t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AllContents.this, "Connection failed , please try again "+t.getMessage(), Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -120,7 +128,6 @@ public class AllContents extends AppCompatActivity implements View.OnLongClickLi
             public boolean onQueryTextChange(String newText) {
                 if (newText!=null) {
                     adapter.getFilter().filter(newText);
-                    Toast.makeText(AllContents.this, "You Typed : "+newText, Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(AllContents.this, "Wait till fetching products properly ", Toast.LENGTH_SHORT).show();
                 }
@@ -234,17 +241,27 @@ public class AllContents extends AppCompatActivity implements View.OnLongClickLi
     }
 
     public  void  delete_products(){
+
+        HashMap<String,Object> map=new HashMap<>();
+        map.put("ids",selected_id);
+        map.put("user_name",MainActivity.getInstance().r_user_name());
         apiInterface=ApiClient.getApiClient().create(ApiInterface.class);
-        Call<List<Fetching_Image>> call=apiInterface.delete_products(selected_id);
-        call.enqueue(new Callback<List<Fetching_Image>>() {
+        Call<Fetching_Image> call=apiInterface.delete_products(map);
+        call.enqueue(new Callback<Fetching_Image>() {
             @Override
-            public void onResponse(Call<List<Fetching_Image>> call, Response<List<Fetching_Image>> response) {
+            public void onResponse(Call<Fetching_Image> call, Response<Fetching_Image> response) {
+                if (response.body().getResponse().equals("ok")) {
+                        Toast.makeText(AllContents.this, "Products deleted successfully ", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(AllContents.this, "no response ", Toast.LENGTH_SHORT).show();
+                }
 
 
             }
 
             @Override
-            public void onFailure(Call<List<Fetching_Image>> call, Throwable t) {
+            public void onFailure(Call<Fetching_Image> call, Throwable t) {
+                Toast.makeText(AllContents.this, "", Toast.LENGTH_SHORT).show();
 
             }
         });
