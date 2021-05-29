@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:cardElevation="10dp"
+    app:cardCornerRadius="20dp"
+    android:layout_margin="10dp"
+    app:cardBackgroundColor="#ffccff"
+    android:id="@+id/order_item_cardID"
+    android:layout_width="match_parent"
+    android:padding="25dp"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="18dp"
+        android:weightSum="3">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <TextView
+                android:textColor="#0426FB"
+                android:textSize="20dp"
+                android:id="@+id/product_name_txtID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="6dp"
+                android:text="Product Name"
+                />
+
+
+            <TextView
+                android:textSize="15dp"
+                android:textColor="#000000"
+                android:id="@+id/product_number_txtID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="6dp"
+                android:text="Product Number" />
+
+            <TextView
+                android:textSize="16dp"
+                android:textColor="#D304F8"
+                android:id="@+id/destination_txtID"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="6dp"
+                android:text="Destination" />
+
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/order_item_imageID"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            tools:srcCompat="@tools:sample/avatars" />
+
+    </LinearLayout>
+
+
+</androidx.cardview.widget.CardView>

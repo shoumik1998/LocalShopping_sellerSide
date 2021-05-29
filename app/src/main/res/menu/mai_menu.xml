@@ -6,7 +6,11 @@
         android:id="@+id/myAccountID"
         android:title="My Account" />
     <item
+        android:id="@+id/order_menuID"
+        android:title="Orders"/>
+    <item
     android:id="@+id/logOutID"
     android:title="Log Out" />
+
 
 </menu>

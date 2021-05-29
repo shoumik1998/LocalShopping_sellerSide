@@ -48,5 +48,8 @@ public interface ApiInterface {
     @POST("update_products")
     Call<Fetching_Image> update_product(@Body HashMap<String,Object> map);
 
+    @POST("order")
+    Call<List<Order_Model>> orders(@Body HashMap<String,String> map);
+
 
 }

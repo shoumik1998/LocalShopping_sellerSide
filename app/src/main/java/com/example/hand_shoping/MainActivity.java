@@ -48,6 +48,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import id.zelory.compressor.Compressor;
+import io.paperdb.Paper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -78,6 +79,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Paper.init(MainActivity.this);
 
 
         sharedPreferences=getSharedPreferences("myFile", Context.MODE_PRIVATE);
@@ -175,6 +178,10 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent=new Intent(MainActivity.this,AllContents.class);
                 startActivity(intent);
                 return  true;
+
+            case R.id.order_menuID:
+                Intent intent1 = new Intent(MainActivity.this, Order_Activity.class);
+                startActivity(intent1);
 
         }
 
