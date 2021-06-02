@@ -1,6 +1,7 @@
 package com.example.hand_shoping;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,23 +39,30 @@ public class Order_Recycler_Adapter extends RecyclerView.Adapter<Order_Recycler_
     public void onBindViewHolder(@NonNull Order_ViewHolder holder, int position) {
         Order_Model order_model_list = order_list.get(position);
         holder.p_name.setText(order_model_list.getProduct_name());
-        //holder.p_price.setText(order_model_list.getProduct_price());
         holder.p_number.setText(order_model_list.getNumber_of_product());
         holder.destination.setText(order_model_list.getAddress());
-        //holder.issue_date.setText(order_model_list.getIssue_date());
-        //holder.delivering_date.setText(order_model_list.getDelivering_date());
 
         Glide.with(context).load(order_model_list.getImagepath()).into(holder.imageView);
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "order clicked...", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, Order_Details_Activity.class);
+                intent.putExtra("p_id", order_model_list.getProduct_id());
+                intent.putExtra("p_name",order_model_list.getProduct_name());
+                intent.putExtra("p_price", order_model_list.getProduct_price());
+                intent.putExtra("p_number", order_model_list.getNumber_of_product());
+                intent.putExtra("c_name", order_model_list.getClient_name());
+                intent.putExtra("contact", order_model_list.getContact_no());
+                intent.putExtra("address", order_model_list.getAddress());
+                intent.putExtra("issue_date", order_model_list.getIssue_date());
+                intent.putExtra("delivering_date", order_model_list.getDelivering_date());
+                intent.putExtra("imagepath", order_model_list.getImagepath());
+                context.startActivity(intent);
+
             }
         });
     }
-
-
     @Override
     public int getItemCount() {
         return order_list.size();

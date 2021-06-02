@@ -3,9 +3,9 @@ package com.example.hand_shoping;
 import com.google.gson.annotations.SerializedName;
 
 public class Order_Model {
-    private String product_name, product_price, number_of_product,client_name,contact_no, address, delivering_date, imagepath;
-    @SerializedName("date/time")
+    private String product_id,product_name, product_price, number_of_product,client_name,contact_no, address, delivering_date, imagepath;
     String issue_date;
+    int order_status;
 
 
     public String getProduct_name() {
@@ -26,6 +26,10 @@ public class Order_Model {
 
     public void setImagepath(String imagepath) {
         this.imagepath = imagepath;
+    }
+
+    public int getOrder_status() {
+        return order_status;
     }
 
     public void setProduct_name(String product_name) {
@@ -58,6 +62,14 @@ public class Order_Model {
 
     public String getAddress() {
         return address;
+    }
+
+    public String getProduct_id() {
+        return product_id;
+    }
+
+    public void setProduct_id(String product_id) {
+        this.product_id = product_id;
     }
 
     public void setAddress(String address) {

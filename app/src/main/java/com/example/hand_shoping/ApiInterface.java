@@ -51,5 +51,8 @@ public interface ApiInterface {
     @POST("order")
     Call<List<Order_Model>> orders(@Body HashMap<String,String> map);
 
+    @POST("order_receive")
+    Call<String> onOrder_Receive(@Body HashMap<String,Object> map);
+
 
 }

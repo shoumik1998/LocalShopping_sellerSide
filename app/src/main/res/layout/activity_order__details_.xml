@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Order_Details_Activity">
+
+    <ImageView
+        android:id="@+id/order_dialog_imageID"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/order_dialog_p_nameID"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/order_dialog_p_nameID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginLeft="36dp"
+        android:layout_marginTop="240dp"
+        android:text="product name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/order_dialog_p_priceID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="price"
+        app:layout_constraintStart_toStartOf="@+id/order_dialog_p_nameID"
+        app:layout_constraintTop_toBottomOf="@+id/order_dialog_p_nameID" />
+
+    <TextView
+        android:id="@+id/order_dialog_p_numberID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No. of product"
+        app:layout_constraintBottom_toBottomOf="@+id/order_dialog_totalID"
+        app:layout_constraintEnd_toStartOf="@+id/order_dialog_totalID"
+        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintStart_toEndOf="@+id/order_dialog_p_priceID"
+        app:layout_constraintTop_toBottomOf="@+id/order_dialog_p_nameID"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/order_dialog_totalID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="63dp"
+        android:layout_marginEnd="23dp"
+        android:layout_marginRight="23dp"
+        android:text="Total cost"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/order_dialog_imageID" />
+
+    <TextView
+        android:id="@+id/order_dialog_c_nameID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginLeft="44dp"
+        android:layout_marginTop="16dp"
+        android:text="Buyer Name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/order_dialog_p_priceID" />
+
+    <TextView
+        android:id="@+id/order_dialog_contactID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Contact No."
+        app:layout_constraintStart_toStartOf="@+id/order_dialog_c_nameID"
+        app:layout_constraintTop_toBottomOf="@+id/order_dialog_c_nameID" />
+
+    <TextView
+        android:id="@+id/order_dialog_addressID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginLeft="44dp"
+        android:layout_marginTop="12dp"
+        android:text="address"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/order_dialog_contactID" />
+
+    <TextView
+        android:id="@+id/order_dialog_issue_dateID"
+        android:layout_width="wrap_content"
+        android:layout_height="19dp"
+        android:text="issue date"
+        app:layout_constraintBottom_toTopOf="@+id/order_dialog_cancel_btnID"
+        app:layout_constraintEnd_toStartOf="@+id/order_dialog_deliver_dateID"
+        app:layout_constraintHorizontal_bias="0.174"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/order_dialog_addressID"
+        app:layout_constraintVertical_bias="0.507" />
+
+    <TextView
+        android:id="@+id/order_dialog_deliver_dateID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:text="delivering date"
+        app:layout_constraintBottom_toTopOf="@+id/order_dialog_receive_btnID"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/order_dialog_addressID"
+        app:layout_constraintVertical_bias="0.514" />
+
+    <Button
+        android:textSize="12dp"
+        android:id="@+id/order_dialog_cancel_btnID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:text="Cancel"
+        app:layout_constraintBaseline_toBaselineOf="@+id/order_dialog_deliver_date_btnID"
+        app:layout_constraintEnd_toStartOf="@+id/order_dialog_deliver_date_btnID"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:textSize="12dp"
+        android:id="@+id/order_dialog_deliver_date_btnID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="27dp"
+        android:layout_marginRight="27dp"
+        android:layout_marginBottom="32dp"
+        android:text="Delivering Date"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/order_dialog_receive_btnID"
+        app:layout_constraintStart_toEndOf="@+id/order_dialog_cancel_btnID" />
+
+    <Button
+        android:textSize="12dp"
+        android:id="@+id/order_dialog_receive_btnID"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="13dp"
+        android:layout_marginRight="13dp"
+        android:text="Receive"
+        app:layout_constraintBottom_toBottomOf="@+id/order_dialog_deliver_date_btnID"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/order_dialog_deliver_date_btnID"
+        app:layout_constraintTop_toTopOf="@+id/order_dialog_deliver_date_btnID" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
