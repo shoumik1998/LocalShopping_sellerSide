@@ -25,7 +25,7 @@ public interface ApiInterface {
 
 
     @POST("upload")
-    Call<ImageClass> uploadImage(@Body HashMap<String,String> upload_map);
+    Call<ImageClass> uploadImage(@Body HashMap<String,Object> upload_map);
 
 
     @POST("data_fetching")
@@ -52,7 +52,7 @@ public interface ApiInterface {
     Call<List<Order_Model>> orders(@Body HashMap<String,String> map);
 
     @POST("order_receive")
-    Call<String> onOrder_Receive(@Body HashMap<String,Object> map);
+    Call<List<Order_Model>> onOrder_Receive(@Body HashMap<String,Object> map);
 
 
 }

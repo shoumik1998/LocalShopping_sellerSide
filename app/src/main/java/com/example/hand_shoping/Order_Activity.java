@@ -20,6 +20,7 @@ import com.pusher.client.connection.ConnectionStateChange;
 import java.util.HashMap;
 import java.util.List;
 
+import io.paperdb.Paper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,6 +36,8 @@ public class Order_Activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_);
+
+        Paper.init(Order_Activity.this);
 
 
         onRecyclerViewTrigger();
@@ -56,7 +59,7 @@ public class Order_Activity extends AppCompatActivity {
             }
         }, ConnectionState.ALL);
 
-        Channel channel = pusher.subscribe("my-channel");
+        Channel channel = pusher.subscribe(MainActivity.getInstance().r_user_name());
         channel.bind("my-event", new SubscriptionEventListener() {
             @Override
             public void onEvent(final PusherEvent event) {

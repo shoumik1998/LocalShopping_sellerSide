@@ -3,10 +3,21 @@ package com.example.hand_shoping;
 import com.google.gson.annotations.SerializedName;
 
 public class Order_Model {
-    private String product_id,product_name, product_price, number_of_product,client_name,contact_no, address, delivering_date, imagepath;
+    private String product_name, product_price, number_of_product,client_name,contact_no, address, delivering_date, imagepath;
+    @SerializedName("phn/gmail")
+    String client_phn_gmail;
     String issue_date;
     int order_status;
+    int product_id;
+    String response;
 
+    public String getResponse() {
+        return response;
+    }
+
+    public String getPhn_gmail() {
+        return client_phn_gmail;
+    }
 
     public String getProduct_name() {
         return product_name;
@@ -64,11 +75,11 @@ public class Order_Model {
         return address;
     }
 
-    public String getProduct_id() {
+    public int getProduct_id() {
         return product_id;
     }
 
-    public void setProduct_id(String product_id) {
+    public void setProduct_id(int product_id) {
         this.product_id = product_id;
     }
 

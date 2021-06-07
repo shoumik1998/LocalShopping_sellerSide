@@ -78,18 +78,19 @@
 
 
     </LinearLayout>
+
     <Button
-        android:textColor="#FFFFFF"
         android:id="@+id/uploadbtnID"
         android:layout_width="280dp"
         android:layout_height="43dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="28dp"
         android:text="Upload Image"
+        android:textColor="#FFFFFF"
         app:layout_constraintBottom_toTopOf="@+id/btnsLayoutID"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.29"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints"/>
+        tools:ignore="MissingConstraints" />
 
     <LinearLayout
         android:id="@+id/btnsLayoutID"
@@ -124,14 +125,28 @@
     </LinearLayout>
 
     <ImageView
+        android:src="@drawable/orderable_24"
         android:id="@+id/orderable_status_imgID"
-        android:layout_width="49dp"
-        android:layout_height="17dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="36dp"
         app:layout_constraintBottom_toTopOf="@+id/btnsLayoutID"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/uploadbtnID"
-        tools:srcCompat="@drawable/orderable_24" />
+        app:layout_constraintTop_toTopOf="@+id/uploadbtnID"
+        />
+
+    <TextView
+        android:id="@+id/orderable_status_txtID"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="20dp"
+        android:text="orderable"
+        android:textSize="11dp"
+        app:layout_constraintBottom_toTopOf="@+id/orderable_status_imgID"
+        app:layout_constraintEnd_toEndOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

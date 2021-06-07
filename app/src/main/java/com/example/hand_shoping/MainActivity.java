@@ -35,6 +35,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,11 +54,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.example.hand_shoping.R.drawable.not_orderable_24;
+import static com.example.hand_shoping.R.drawable.orderable_24;
+
 public class MainActivity extends AppCompatActivity {
 
-    private TextView textView;
+    private TextView textView,orderable_status_txtView;
     private EditText titleEditxt,priceEditxt;
-    private ImageView imageView;
+    private ImageView imageView,orderable_img;
     private Button cambtn,galbtn,uploadBtn;
     private  LogIn_Activity logIn_activity;
     private Activity activity;
@@ -68,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
     private Uri image_uri;
     private Bitmap bitmap;
     private Toolbar toolbar;
+    private  int orderable_status=1;
 
 
     private  static final  int IMG_PICK_CAM_CODE=3;
@@ -96,6 +101,9 @@ public class MainActivity extends AppCompatActivity {
         cambtn=findViewById(R.id.camID);
         galbtn=findViewById(R.id.galaryID);
         uploadBtn=findViewById(R.id.uploadbtnID);
+        orderable_img = findViewById(R.id.orderable_status_imgID);
+        orderable_status_txtView = findViewById(R.id.orderable_status_txtID);
+
         uploadBtn.setBackgroundDrawable(getResources().getDrawable(R.drawable.custom_up_btn_disable));
         uploadBtn.setEnabled(false);
         titleEditxt=findViewById(R.id.titleeditID);
@@ -103,9 +111,11 @@ public class MainActivity extends AppCompatActivity {
         textView.setText(rName());
         getSupportActionBar().setDisplayShowTitleEnabled(true);
 
-
-
-
+        if (orderable_status == 1) {
+            orderable_status_txtView.setText("Orderable");
+        } else if (orderable_status == 0) {
+            orderable_status_txtView.setText("Not Orderable");
+        }
 
         uploadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,6 +127,24 @@ public class MainActivity extends AppCompatActivity {
                 }
 
 
+            }
+        });
+
+        orderable_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (orderable_status==0) {
+                    orderable_img.setImageResource(R.drawable.orderable_24);
+                    orderable_status=1;
+                    Toast.makeText(MainActivity.this, ""+orderable_status, Toast.LENGTH_SHORT).show();
+                    orderable_status_txtView.setText("Orderable");
+                } else if (orderable_status==1) {
+                    orderable_img.setImageResource(R.drawable.not_orderable_24);
+                    orderable_status=0;
+                    Toast.makeText(MainActivity.this, ""+orderable_status, Toast.LENGTH_SHORT).show();
+                    orderable_status_txtView.setText("Not Orderable");
+
+                }
             }
         });
         cambtn.setOnClickListener(new View.OnClickListener() {
@@ -348,11 +376,12 @@ public class MainActivity extends AppCompatActivity {
 
                    int   Price=Integer.parseInt(Pricestring);
 
-                HashMap<String ,String> upload_map=new HashMap<>();
+                HashMap<String ,Object> upload_map=new HashMap<>();
                 upload_map.put("title",Title);
                 upload_map.put("images",Image);
                 upload_map.put("price",String.valueOf(Price));
                 upload_map.put("user_name",r_user_name());
+                upload_map.put("orderable_status", orderable_status);
 
 
 

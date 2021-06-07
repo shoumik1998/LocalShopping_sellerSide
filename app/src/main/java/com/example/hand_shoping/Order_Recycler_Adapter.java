@@ -2,6 +2,7 @@ package com.example.hand_shoping;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,6 +43,10 @@ public class Order_Recycler_Adapter extends RecyclerView.Adapter<Order_Recycler_
         holder.p_number.setText(order_model_list.getNumber_of_product());
         holder.destination.setText(order_model_list.getAddress());
 
+        if (order_model_list.order_status == 1) {
+            holder.cardView.setCardBackgroundColor(Color.parseColor("#7fe5f0"));
+        }
+
         Glide.with(context).load(order_model_list.getImagepath()).into(holder.imageView);
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +62,7 @@ public class Order_Recycler_Adapter extends RecyclerView.Adapter<Order_Recycler_
                 intent.putExtra("address", order_model_list.getAddress());
                 intent.putExtra("issue_date", order_model_list.getIssue_date());
                 intent.putExtra("delivering_date", order_model_list.getDelivering_date());
+                intent.putExtra("phn_gmail", order_model_list.getPhn_gmail());
                 intent.putExtra("imagepath", order_model_list.getImagepath());
                 context.startActivity(intent);
 
