@@ -1,1 +1,1 @@
-# LocalShopping_sellerSide
+This app has been developed with Java and name of the app is "My Shop". This is an E-commerce app and specially developed for sellers only. With this app, sellers can upload the images of their products. Sellers have full control over their products like deleting, editing and so on. There is a special feature has been added thai is real time order monitoring system. PUSHER has been used as real time communication server. 
